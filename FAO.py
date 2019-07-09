@@ -42,7 +42,8 @@ class Fao:
             years_list.append("Y" + str(date))
 
         for country in country_list:
-            country_dic[country] = [0, 0, 0]
+            country_dic[country] = ["init", "Yinit", 0]
+            othermin = []
 
             for production in self.products(country):
 
@@ -51,9 +52,14 @@ class Fao:
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
 
-                    if currentyield[max(currentyield)] > country_dic[country][2]:
-                        country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
-        
+                        if currentyield[max(currentyield)] > country_dic[country][-1]:
+                            country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
+
+                        elif currentyield[max(currentyield)] == country_dic[country][-1]:
+                            othermin.append([production, max(currentyield), [currentyield[max(currentyield)]]])
+
+            country_dic[country] = [country_dic[country], othermin]
+
         return country_dic
 
     def min(self, country_list, years):
@@ -67,7 +73,8 @@ class Fao:
             years_list.append("Y" + str(date))
 
         for country in country_list:
-            country_dic[country] = [0, 0, 0]
+            country_dic[country] = ["init", "Yinit", float('inf')]
+            othermin = []
 
             for production in self.products(country):
 
@@ -76,10 +83,17 @@ class Fao:
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
 
-                    if currentyield[min(currentyield)] < country_dic[country][2]:
-                        country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
+                        if currentyield[min(currentyield)] < country_dic[country][-1]:
+                            country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
+
+                        elif currentyield[min(currentyield)] == country_dic[country][-1]:
+                            othermin.append([production, min(currentyield), [currentyield[min(currentyield)]]])
+
+            country_dic[country] = [country_dic[country], othermin]
 
         return country_dic
+
+
 
     
     def products(self, nameCountry): #function to have a list a product given the name country
