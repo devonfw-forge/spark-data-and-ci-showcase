@@ -1,11 +1,11 @@
 from unittest import TestCase
-from FaO import FaO
+from FAO import Fao
 
 class TestFao(TestCase):
     def setUP(self,data):
-        self.data = FaO()
+        self.data = Fao()
 
-    def show_countries(self):
+    def test_countries(self):
         self.assertEqual(self.data.countries()[0], "Afghanistan")
 
     def test_products(self):
