@@ -4,15 +4,83 @@ import json
 class Fao:
 
     def __init__(self):
+        '''
+        Initializes the class by importing the data from the file
+        '''
         file = open("FAO+database.json", 'r')
         self.dataBase = json.load(file)
+        file.close()
 
     def countries(self):
+        '''
+        Returns all countries present in the file without doubles.
+        '''
         country_list = []
         for element in self.dataBase:
             if element["Area"] not in country_list:
                 country_list.append(element["Area"])
         return country_list
+
+    def products(self, country):
+        '''
+        Returns all products for a given country.
+        '''
+        products_list = []
+        for element in self.dataBase:
+            if element["Area"] == country and element["Item"] not in products_list:
+                products_list.append(element["Item"])
+        return products_list
+
+    def max(self, country_list, years):
+        '''
+        Returns the maximum of production (production, year and quantity) for some given countries and a fixed date.
+        '''
+        country_dic = {}
+        years_list = []
+
+        for date in range(years[0], years[-1]+1):
+            years_list.append("Y" + str(date))
+
+        for country in country_list:
+            country_dic[country] = [0, 0, 0]
+
+            for production in self.products(country):
+
+                for element in self.dataBase:
+
+                    if element["Area"] == country and element["Item"] == production:
+                        currentyield = {key: element[key] for key in years_list}
+
+                    if currentyield[max(currentyield)] > country_dic[country][2]:
+                        country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
+        
+        return country_dic
+
+    def min(self, country_list, years):
+        '''
+        Returns the minimum of production (production, year and quantity) for some given countries and a fixed date.
+        '''
+        country_dic = {}
+        years_list = []
+
+        for date in range(years[0], years[-1]+1):
+            years_list.append("Y" + str(date))
+
+        for country in country_list:
+            country_dic[country] = [0, 0, 0]
+
+            for production in self.products(country):
+
+                for element in self.dataBase:
+
+                    if element["Area"] == country and element["Item"] == production:
+                        currentyield = {key: element[key] for key in years_list}
+
+                    if currentyield[min(currentyield)] < country_dic[country][2]:
+                        country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
+
+        return country_dic
+
     
     def products(self, nameCountry): #function to have a list a product given the name country
         productList = []
@@ -20,7 +88,7 @@ class Fao:
             if elt["Area"] == nameCountry:
                 if elt["Item"] not in productList:
                     productList.append(elt["Item"])
-        print(productList)
+        return productList
 
 if __name__ == '__main__':
 
