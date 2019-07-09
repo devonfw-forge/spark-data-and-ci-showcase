@@ -1,19 +1,18 @@
 from unittest import TestCase
-from FAO import Fao
-
+from FaO import FaO
 
 class TestFao(TestCase):
-    def setUp(self):
-        self.data = Fao()
+    def setUP(self,data):
+        self.data = FaO()
 
-    def test_countries(self):
+    def show_countries(self):
         self.assertEqual(self.data.countries()[0], "Afghanistan")
 
     def test_products(self):
-        self.assertEqual(self.data.products("Afghanistan")[0], "Wheat and products")
+        self.asserEqual(self.data.products("Afghanistan")[0], "Wheat and products")
 
     def test_min(self):
-        self.assertEqual(self.data.min(["Afghanistan"], ['Y1961', 'Y2013']), "a completer")
+        self.assertEqual(self.data.min(["Afghanistan"], ['Y1961', 'Y2013']), )
 
     def test_max(self):
         self.assertEqual(self.data.max(["Afghanistan"], ['Y1961', 'Y2013']), ["Wheat and products", "Y2013"])
