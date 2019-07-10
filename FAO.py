@@ -110,4 +110,26 @@ class Fao:
                 country_dic[country] = [country_dic[country], othermin]
 
         return country_dic
+    
+    # parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
+    def av(self, listOfCountries, years, Production):
+        mean_list = []
+        yearsRange = []
+        yearsRange.append(years[0][1:])
+        yearsRange.append(years[1][1:])
+
+        result_list = []
+        for element in self.dataBase:
+            if element["Area"] in listOfCountries and element["Item"] == Production and element["Element"] == "Food":
+                # replace empty item by 0
+
+                for i in range(int(yearsRange[0]), int(yearsRange[1]) + 1):
+                    if element["Y" + str(i)] == "":
+                        element["Y" + str(i)] = 0
+
+                    result_list.append(element["Y" + str(i)])
+                mean_list.append(element["Area"] + ":" + str(statistics.mean(result_list)))
+                result_list = []
+
+        return mean_list
 
