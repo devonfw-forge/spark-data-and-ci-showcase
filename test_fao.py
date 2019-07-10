@@ -13,10 +13,11 @@ class TestFao(TestCase):
         self.assertEqual(self.data.products("Afghanistan")[0], "Wheat and products")
 
     def test_min(self):
-        self.assertEqual(self.data.min(["Afghanistan"], [2010, 2013]), "a completer")
+        self.assertEqual(self.data.min(["Afghanistan"], [2010, 2013])["Afghanistan"][0][-1], 0)
 
     def test_max(self):
-        self.assertEqual(self.data.max(["Afghanistan"], [2010, 2013]), {'Afghanistan': [['Cereals - Excluding Beer', 'Y2013', 5495], []]})
+        self.assertEqual(self.data.max(["Afghanistan"], [2010, 2013])["Afghanistan"][-1], 5495)
 
     def test_av(self):
         self.assertEqual(self.data.av(["Afghanistan"], [1961, 1965], "Wheat and products"), 1889.8)
+
