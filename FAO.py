@@ -21,16 +21,27 @@ class Fao:
                 country_list.append(element["Area"])
         return country_list
 
-    def products(self, nameCountry): 
+    def products(self, country):
         '''
         Returns all products for a given country.
         '''
-        productList = []
-        for elt in self.dataBase:
-            if elt["Area"] == nameCountry:
-                if elt["Item"] not in productList:
-                    productList.append(elt["Item"])
-        return productList
+        products_list = []
+        for element in self.dataBase:
+            if element["Area"] == country and element["Item"] not in products_list:
+                products_list.append(element["Item"])
+        return products_list
+
+    def country_prod(self, countries):
+        '''
+        Returns a list of countries with each country a production list
+        '''
+        final_list = []
+        for country in countries:
+            int_list =[country]
+            int_list.append(self.products(country))
+            final_list.append(int_list)
+
+        return final_list
 
     def max(self, country_list, years):
         '''
@@ -84,10 +95,10 @@ class Fao:
 
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
-                        
+
                         for elt in currentyield.items():
                             if elt[1] == "":
-                                currentyield[elt[0]] = 0                        
+                                currentyield[elt[0]] = 0
 
                         if currentyield[min(currentyield)] < country_dic[country][-1]:
                             country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
@@ -99,28 +110,4 @@ class Fao:
                 country_dic[country] = [country_dic[country], othermin]
 
         return country_dic
-    
-    #parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
-    def av(self, listOfCountries, years, Production):
-        mean_list = []
-        yearsRange = []
-        yearsRange.append(years[0][1:])
-        yearsRange.append(years[1][1:])
-
-        result_list=[]
-        for element in self.dataBase:
-            if element["Area"] in listOfCountries and element["Item"] == Production and element["Element"] == "Food":
-                #replace empty item by 0
-
-                for i in range(int(yearsRange[0]), int(yearsRange[1])+1):
-                    if element["Y"+str(i)] == "":
-                        element["Y" + str(i)] = 0
-
-                    result_list.append(element["Y"+str(i)])
-                mean_list.append(element["Area"]+":"+str(statistics.mean(result_list)))
-                result_list = []
-
-
-        return mean_list
-
 
