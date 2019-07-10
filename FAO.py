@@ -32,7 +32,7 @@ class Fao:
                     productList.append(elt["Item"])
         return productList
 
-        def max(self, country_list, years):
+    def max(self, country_list, years):
         '''
         Returns the maximum of production (production, year and quantity) for some given countries and a fixed date.
         '''
