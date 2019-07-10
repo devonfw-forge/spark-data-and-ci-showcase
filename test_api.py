@@ -24,8 +24,8 @@ class TestApi(TestCase):
     def test_countries_pop2(self):
         self.assertNotEqual(self.data.countries_pop(["Aruba"])[0][1][1], "57032")
    
-   def test_growth(self):
-        self.assertEqual(self.data.growth(["Aruba"], ["1960", "1961"]), 1227)
+    def test_growth(self):
+        self.assertEqual(self.data.growth(["Aruba","Afghanistan"], ["1960", "1965"]), ["Aruba:3149", "Afghanistan:959347"])
 
     def test_growth2(self):
-        self.assertNotEqual(self.data.growth(["Aruba"], ["1960", "1961"]), 1287)
+        self.assertNotEqual(self.data.growth(["Aruba"], ["1960", "1961"]),["Aruba:3149"])
