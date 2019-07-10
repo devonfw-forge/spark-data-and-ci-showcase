@@ -95,6 +95,7 @@ class Fao:
                 country_dic[country] = [country_dic[country], othermin]
 
         return country_dic
+    
     #parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
     def av(self, listOfCountries, years, Production):
         mean_list = []
