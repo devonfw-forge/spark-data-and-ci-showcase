@@ -63,6 +63,10 @@ class Fao:
 
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
+                        
+                        for elt in currentyield.items():
+                            if elt[1] == "":
+                                currentyield[elt[0]] = 0
 
                         if currentyield[max(currentyield)] > country_dic[country][-1]:
                             country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
