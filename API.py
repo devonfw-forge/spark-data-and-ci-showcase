@@ -4,6 +4,9 @@ import csv
 class Api:
 
     def __init__(self):
+        '''
+        Starts the class by saving the file data and the name of the columns in two different attributes
+        '''
         self.dataBase = []
         self.dataHead = []
         with open("API_SP.POP.TOTL_DS2_en_csv_v2_162.csv") as csv_file:
@@ -13,12 +16,18 @@ class Api:
         self.dataBase = self.dataBase[5:]
 
     def countries(self):
+        '''
+        Returns the list of all the countries
+        '''
         country_list = []
         for country in self.dataBase:
             country_list.append(country[0])
         return country_list
 
     def population(self, country, years):
+        '''
+        Returns, for a country and a period given, the list of the population
+        '''
 
         for current_country in self.dataBase:
             if current_country[0] == country:
@@ -31,6 +40,9 @@ class Api:
         return pop
 
     def countries_pop(self, countries, years):
+        '''
+        Returns, for a list of countries and a period given, the list of the population of each country
+        '''
         final_list = []
         for country in countries:
             int_list = [country]
