@@ -31,7 +31,7 @@ class Fao:
                 products_list.append(element["Item"])
         return products_list
 
-    def max(self, country_list, years):
+        def max(self, country_list, years):
         '''
         Returns the maximum of production (production, year and quantity) for some given countries and a fixed date.
         '''
@@ -43,7 +43,7 @@ class Fao:
 
         for country in country_list:
             country_dic[country] = ["init", "Yinit", 0]
-            othermin = []
+            othermax = []
 
             for production in self.products(country):
 
@@ -56,9 +56,10 @@ class Fao:
                             country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
 
                         elif currentyield[max(currentyield)] == country_dic[country][-1]:
-                            othermin.append([production, max(currentyield), [currentyield[max(currentyield)]]])
+                            othermax.append([production, max(currentyield), currentyield[max(currentyield)]])
 
-            country_dic[country] = [country_dic[country], othermin]
+            if othermax != []:
+                country_dic[country] = [country_dic[country], othermax]
 
         return country_dic
 
@@ -87,9 +88,10 @@ class Fao:
                             country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
 
                         elif currentyield[min(currentyield)] == country_dic[country][-1]:
-                            othermin.append([production, min(currentyield), [currentyield[min(currentyield)]]])
+                            othermin.append([production, min(currentyield), currentyield[min(currentyield)]])
 
-            country_dic[country] = [country_dic[country], othermin]
+            if othermin != []:
+                country_dic[country] = [country_dic[country], othermin]
 
         return country_dic
 
