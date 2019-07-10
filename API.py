@@ -18,19 +18,19 @@ class Api:
             country_list.append(country[0])
         return country_list
 
-    def population(self, country):
+    def population(self, country, years):
 
         for current_country in self.dataBase:
             if current_country[0] == country:
-               pop = current_country[4:-1]
+                pop = current_country[self.dataHead.index(years[0]) : self.dataHead.index(years[1])+1]
 
         return pop
 
-    def countries_pop(self, countries):
+    def countries_pop(self, countries, years):
         final_list = []
         for country in countries:
             int_list = [country]
-            int_list.append(self.population(country))
+            int_list.append(self.population(country, years))
             final_list.append(int_list)
         return final_list
 
