@@ -34,13 +34,14 @@ class Api:
             final_list.append(int_list)
         return final_list
 
-    def growth(self, listOfCountries, years):
+     def growth(self, listOfCountries, years):
 
         minimum = 0
         maximum = 0
         indiceMin = 0
         indiceMax = 0
         difference = 0
+        result = []
 
         for country in self.dataBase:
 
@@ -56,6 +57,9 @@ class Api:
                 maximum = country[indiceMax]
 
                 difference = int(maximum) - int(minimum)
+                result += [country[0]+":"+ str(difference)]
+                maximum = 0
+                minimum = 0
+                difference = 0
 
-
-        return difference
+        return result
