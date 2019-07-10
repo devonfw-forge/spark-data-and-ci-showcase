@@ -10,7 +10,7 @@ class Api:
             for row in csv.reader(csv_file, delimiter=','):
                 self.dataBase.append(row)
         self.dataHead = self.dataBase[4]
-        self.dataBase = self.dataBase[5:-1]
+        self.dataBase = self.dataBase[5:]
 
     def countries(self):
         country_list = []
