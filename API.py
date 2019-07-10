@@ -23,7 +23,11 @@ class Api:
         for current_country in self.dataBase:
             if current_country[0] == country:
                 pop = current_country[self.dataHead.index(years[0]) : self.dataHead.index(years[1])+1]
-
+                
+        for elt in pop:
+            if elt == "":
+                pop[pop.index(elt)] = 0
+                
         return pop
 
     def countries_pop(self, countries, years):
