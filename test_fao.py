@@ -19,5 +19,8 @@ class TestFao(TestCase):
         self.assertEqual(self.data.max(["Afghanistan"], [2010, 2013])["Afghanistan"][-1], 5495)
 
     def test_av(self):
-        self.assertEqual(self.data.av(["Afghanistan"], [1961, 1965], "Wheat and products"), 1889.8)
+        self.assertEqual(self.data.av(["Afghanistan","Cyprus"], ['Y1961', 'Y1965'], "Wheat and products"), ["Afghanistan:1889.8","Cyprus:67.5"])
+
+
+        
 
