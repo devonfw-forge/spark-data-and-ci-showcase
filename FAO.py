@@ -21,15 +21,16 @@ class Fao:
                 country_list.append(element["Area"])
         return country_list
 
-    def products(self, country):
+    def products(self, nameCountry): 
         '''
         Returns all products for a given country.
         '''
-        products_list = []
-        for element in self.dataBase:
-            if element["Area"] == country and element["Item"] not in products_list:
-                products_list.append(element["Item"])
-        return products_list
+        productList = []
+        for elt in self.dataBase:
+            if elt["Area"] == nameCountry:
+                if elt["Item"] not in productList:
+                    productList.append(elt["Item"])
+        return productList
 
         def max(self, country_list, years):
         '''
@@ -96,18 +97,4 @@ class Fao:
         return country_dic
 
 
-
-    
-    def products(self, nameCountry): #function to have a list a product given the name country
-        productList = []
-        for elt in self.dataBase:
-            if elt["Area"] == nameCountry:
-                if elt["Item"] not in productList:
-                    productList.append(elt["Item"])
-        return productList
-
-if __name__ == '__main__':
-
-    FAO1 = FAO()
-    FAO1.products("Zimbabwe")
 
