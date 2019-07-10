@@ -35,7 +35,7 @@ class Api:
                 
         for elt in pop:
             if elt == "":
-                pop[pop.index(elt)] = 0
+                pop[pop.index(elt)] = '0'
                 
         return pop
 
