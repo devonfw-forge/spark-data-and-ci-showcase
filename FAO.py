@@ -110,7 +110,12 @@ class Fao:
         result_list=[]
         for element in self.dataBase:
             if element["Area"] in listOfCountries and element["Item"] == Production and element["Element"] == "Food":
+                #replace empty item by 0
+
                 for i in range(int(yearsRange[0]), int(yearsRange[1])+1):
+                    if element["Y"+str(i)] == "":
+                        element["Y" + str(i)] = 0
+
                     result_list.append(element["Y"+str(i)])
                 mean_list.append(element["Area"]+":"+str(statistics.mean(result_list)))
                 result_list = []
