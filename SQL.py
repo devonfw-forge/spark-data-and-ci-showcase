@@ -20,6 +20,20 @@ class Gdp(Base):
    gdp = Column(Integer)
    growth = Column(Integer)
 
-query = session.query(Gdp)
 
-print(query.filter_by(CountryCode="ABW"))
+class Analyse():
+
+   def __init__(self):
+
+      self.data = session.query(Gdp)
+
+   def countries(self):
+      country_list = []
+      for country in session.query(Gdp.CountryCode).all():
+         if country not in country_list:
+            country_list.append(country)
+      return country_list
+
+
+T = Analyse()
+print(T.countries())
