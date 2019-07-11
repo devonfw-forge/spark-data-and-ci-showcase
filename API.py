@@ -79,31 +79,90 @@ class Api:
                 difference = 0
                 
         return result
+
     
+    def indexYear(self, years):
+        indexA = 0
+        indexB = 0
+        list_year = []
+        list_year.append(self.dataHead[4:63])
+        indexA = list_year[0].index(years[0]) + 4
+        indexB = list_year[0].index(years[1]) + 4
+        return indexA,indexB
+
+    def indexCountries(self, country_list):
+        indexes = []
+        for i in country_list:
+            indexes.append(self.countries().index(i))
+        return indexes
+
+
+    def minPoblacion(self, country_list, years):
+        list1 = []
+        list2 = []
+        listeInt = []
+        listeStr = []
+        indexesCountries = self.indexCountries(country_list)
+        indexYears = self.indexYear(years)
+        for i in indexesCountries:
+            list1.append(self.dataBase[i])
+        for i in range(len(list1)):
+            for j in range(indexYears[0], indexYears[1]):
+                list2.append(list1[i][j])
+        j = 0
+        pas = int(len(list2) / len(indexesCountries))
+        for i in range(len(list1)):
+            listeStr.append(list2[j:pas])
+            j=pas
+            pas += pas
+
+        for i in range(len(listeStr)):
+            listeStr[i] = [int(i) for i in listeStr[i]]
+
+        for i in range(len(listeStr)):
+            listeInt.append(min(listeStr[i]))
+
+        return listeInt
+
+    def maxPoblacion(self, country_list, years):
+        list1 = []
+        list2 = []
+        listeInt = []
+        listeStr = []
+        indexesCountries = self.indexCountries(country_list)
+        indexYears = self.indexYear(years)
+        for i in indexesCountries:
+            list1.append(self.dataBase[i])
+        for i in range(len(list1)):
+            for j in range(indexYears[0], indexYears[1]):
+                list2.append(list1[i][j])
+        j = 0
+        pas = int(len(list2) / len(indexesCountries))
+        for i in range(len(list1)):
+            listeStr.append(list2[j:pas])
+            j=pas
+            pas += pas
+
+        for i in range(len(listeStr)):
+            listeStr[i] = [int(i) for i in listeStr[i]]
+
+        for i in range(len(listeStr)):
+            listeInt.append(max(listeStr[i]))
+
+        return listeInt
+
+
+if __name__ == '__main__':
+
+    API1 = Api()
+    print(API1.countries())
+    print(API1.dataHead)
+    print(API1.indexYear(['1971', '2000']))
+    print(API1.indexCountries(["Armenia", "Comoros"]))
+    print(API1.minPoblacion(["Armenia", "Comoros", "Bahrain"],['1960', '1970']))
+    print(API1.maxPoblacion(["Armenia", "Comoros", "Zimbabwe"],['1970', '1980']))
     
-    def maxim(self, country):
-        self.pop = []
-        for elt in self.dataBase:
-            self.pop.append(elt[5:])
-
-        self.int_list = []
-        for elt in self.pop:
-            integr = []
-            for elt2 in elt:
-                if elt2 != '':
-                    integr.append(int(elt2))
-                self.int_list.append(integr)
-
-        self.list_max = []
-        for elt in self.int_list:
-            if elt != []:
-                if max(elt) not in self.list_max:
-                    self.list_max.append(max(elt))
-
-        if country in self.countries():
-            return self.list_max[self.countries().index(country)]
-        else:
-            return 'error'
+   
                 
 
             
