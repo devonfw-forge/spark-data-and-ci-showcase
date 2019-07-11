@@ -80,25 +80,7 @@ class Api:
                 
                     return result
                 
-        self.int_list = []
-        for elt in self.pop:
-            integr = []
-            for elt2 in elt:
-                if elt2 != '':
-                    integr.append(int(elt2))
-                self.int_list.append(integr)
-                
-        self.list_max = []               
-        for elt in self.int_list:
-            if elt != []:
-                if max(elt) not in self.list_max:
-                    self.list_max.append(max(elt))        
-        
-        def maxim(self, country):
-            if country in self.countries():
-                return self.list_max[self.countries.index(country)]
-            else:
-                return 'error'
+
             
 
     
