@@ -56,11 +56,13 @@ class Analyse:
          countries_data_list[country] = self.data_country(country)
 
       return countries_data_list
-      def av(self, countries, years):
+   
+   def av(self, countries, years):
       av_list = {}
       for country in countries:
          CC = self.name_to_code(country)
-         av_list[country] =  session.query(func.avg(Gdp.gdp)).filter_by(CountryCode=CC).filter(Gdp.Year.in_(years)).first()[0]
+         years_vec = [x for x in range(years[0],years[1]+1)]
+         av_list[country] =  session.query(func.avg(Gdp.gdp)).filter_by(CountryCode=CC).filter(Gdp.Year.in_(years_vec)).first()[0]
       return av_list
    
    def av_growth(self, countries, years):
