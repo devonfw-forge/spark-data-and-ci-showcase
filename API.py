@@ -79,6 +79,31 @@ class Api:
                 difference = 0
                 
         return result
+    
+    
+    def maxim(self, country):
+        self.pop = []
+        for elt in self.dataBase:
+            self.pop.append(elt[5:])
+
+        self.int_list = []
+        for elt in self.pop:
+            integr = []
+            for elt2 in elt:
+                if elt2 != '':
+                    integr.append(int(elt2))
+                self.int_list.append(integr)
+
+        self.list_max = []
+        for elt in self.int_list:
+            if elt != []:
+                if max(elt) not in self.list_max:
+                    self.list_max.append(max(elt))
+
+        if country in self.countries():
+            return self.list_max[self.countries().index(country)]
+        else:
+            return 'error'
                 
 
             
