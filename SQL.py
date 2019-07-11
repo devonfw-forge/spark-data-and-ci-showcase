@@ -44,4 +44,12 @@ class Analyse:
    def code_to_name(self, code):
       return session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
 
+   def name_to_code(self, name):
+      return session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
+
+   def data_country(self, country):
+      data_country = []
+      for line in session.query(Gdp).filter_by(CountryCode=self.name_to_code(country)).all():
+         data_country.append([line.Year, line.gdp, line.growth])
+      return data_country
 
