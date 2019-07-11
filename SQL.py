@@ -20,8 +20,14 @@ class Gdp(Base):
    gdp = Column(Integer)
    growth = Column(Integer)
 
+class Countries(Base):
+   __tablename__ = 'countries'
 
-class Analyse():
+   CountryCode = Column(String, primary_key=True)
+   CountryName = Column(String)
+
+
+class Analyse:
 
    def __init__(self):
 
@@ -30,10 +36,12 @@ class Analyse():
    def countries(self):
       country_list = []
       for country in session.query(Gdp.CountryCode).all():
-         if country not in country_list:
-            country_list.append(country)
+         if self.code_to_name(country[0]) not in country_list:
+            country_list.append(self.code_to_name(country[0]))
+
       return country_list
 
+   def code_to_name(self, code):
+      return session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
 
-T = Analyse()
-print(T.countries())
+
