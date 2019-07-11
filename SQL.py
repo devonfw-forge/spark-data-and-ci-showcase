@@ -29,9 +29,6 @@ class Countries(Base):
 
 class Analyse:
 
-   def __init__(self):
-
-      self.data = session.query(Gdp)
 
    def countries(self):
       country_list = []
