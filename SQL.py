@@ -50,3 +50,10 @@ class Analyse:
          data_country.append([line.Year, line.gdp, line.growth])
       return data_country
 
+   def countries_data(self):
+      countries_data_list = {}
+      for country in self.countries():
+         countries_data_list[country] = self.data_country(country)
+
+      return countries_data_list
+
