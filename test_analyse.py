@@ -34,11 +34,11 @@ class TestAnalyse(TestCase):
         self.assertNotEqual(self.data.name_to_code('France'), 'AND')
 
     def test_data_country(self):
-        self.asssertEqual(self.data.data_country('Aruba')[0][1], '')
+        self.assertEqual(self.data.data_country('Aruba')[0][1], '')
 
     def test_data_country2(self):
-        self.asssertEqual(self.data.data_country('Zimbabwe')[-1][1], 31000519447.175)
+        self.assertEqual(self.data.data_country('Zimbabwe')[-1][1], 31000519447.175)
 
     def test_data_country3(self):
-        self.asssertEqual(self.data.data_country('Spain')[0][0], 1980)
+        self.assertEqual(self.data.data_country('Spain')[0][0], 1980)
 
