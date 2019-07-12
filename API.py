@@ -152,17 +152,7 @@ class Api:
         return listeInt
 
 
-if __name__ == '__main__':
 
-    API1 = Api()
-    print(API1.countries())
-    print(API1.dataHead)
-    print(API1.indexYear(['1971', '2000']))
-    print(API1.indexCountries(["Armenia", "Comoros"]))
-    print(API1.minPoblacion(["Armenia", "Comoros", "Bahrain"],['1960', '1970']))
-    print(API1.maxPoblacion(["Armenia", "Comoros", "Zimbabwe"],['1970', '1980']))
-    
-   
                 
 
             
