@@ -40,10 +40,7 @@ class Analyse:
       return session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
 
    def data_country(self, country):
-      data_country = []
-      for line in session.query(Gdp).filter_by(CountryCode=self.name_to_code(country)).all():
-         data_country.append([line.Year, line.gdp, line.growth])
-      return data_country
+      return session.query(Gdp.Year, Gdp.gdp, Gdp.growth).filter_by(CountryCode=self.name_to_code(country)).all()
 
    def countries_data(self):
       countries_data_list = {}
