@@ -31,12 +31,7 @@ class Analyse:
 
 
    def countries(self):
-      country_list = []
-      for country in session.query(Gdp.CountryCode).all():
-         if self.code_to_name(country[0]) not in country_list:
-            country_list.append(self.code_to_name(country[0]))
-
-      return country_list
+      return [x[0] for x in session.query(Countries.CountryName).all()]
 
    def code_to_name(self, code):
       return session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
