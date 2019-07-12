@@ -53,4 +53,28 @@ class TestAnalyse(TestCase):
 
     def test_min_growth_of_zambia_and_zimbabwe_between_1990_2000(self):
         self.assertEqual(self.data.min_growth(["Zambia","Zimbabwe"],[1990,2000]), -9.01557008626092)
+    
+    def test_av_gdp_Armenia_Comoros_Bahrain_1990_1995(self):
+        self.assertEqual(self.data.av_gdp(["Armenia", "Comoros", "Bahrain"], [1990, 1995]), {'Armenia': 1597122009.636872, 'Comoros': 413608659.37108946, 'Bahrain': 5035726950.35461})
+
+    def test_av_gdp_Madagascar_Poland_Sudan_2001_2006(self):
+        self.assertNotEqual(self.data.av_gdp(["Madagascar", "Poland", "Sudan"], [2001, 2006]), {'Madagascar': 48861984.861827, 'Poland': 2521170662.67905, 'Sudan': 215728296.915783})
+
+    def test_av_growth_Armenia_Comoros_Bahrain_1990_1995(self):
+        self.assertNotEqual(self.data.av_growth(["Armenia", "Comoros", "Bahrain"], [1990, 1995]), {'Qatar': 48861984.861827, 'Poland': 2521170662.67905, 'Senegal': 215728296.915783})
+
+    def test_av_gdp_Madagascar_Poland_Sudan_2001_2006(self):
+        self.assertEqual(self.data.av_growth(["Madagascar", "Poland", "Sudan"], [2001, 2006]), {'Madagascar': 3.0019064949716667, 'Poland': 3.6101258971329564, 'Sudan': 7.016596579021644})
+
+    def test_min_gdp_Luxembourg_Lesotho_Libya_1960_2018(self):
+        self.assertEqual(self.data.min_gdp(["Luxembourg", "Lesotho", "Libya"],[1960, 2018]), 34579308.4138317)
+
+    def test_min_gdp_Brazil_North_America_1960_2018(self):
+        self.assertNotEqual(self.data.min_gdp(["Brazil", "North America"], [1984, 2018]), 2023912696.839)
+
+    def test_max_gdp_Luxembourg_Lesotho_Libya_1960_2018(self):
+        self.assertEqual(self.data.max_gdp(["Luxembourg", "Lesotho", "Libya"],[1960, 2018]), 69487922619.3401)
+
+    def test_max_gdp_Brazil_North_America_1960_2018(self):
+        self.assertNotEqual(self.data.max_gdp(["Brazil", "North America"], [1984, 2018]), 2023912696.839)
 
