@@ -12,6 +12,9 @@ Base = declarative_base()
 
 
 class Gdp(Base):
+   '''
+   Initializes the Gdp table.
+   '''
    __tablename__ = 'gdp'
 
    id = Column(Integer, primary_key=True)
@@ -21,6 +24,9 @@ class Gdp(Base):
    growth = Column(Integer)
 
 class Countries(Base):
+   '''
+   Initializes the countries table.
+   '''
    __tablename__ = 'countries'
 
    CountryCode = Column(String, primary_key=True)
@@ -28,18 +34,32 @@ class Countries(Base):
 
 
 class Analyse:
-
+   '''
+   Class with all the data analyse functions.
+   '''
 
    def countries(self):
+      '''
+      Returns the list of all the countries.
+      '''
       return [x[0] for x in session.query(Countries.CountryName).all()]
 
    def code_to_name(self, code):
+      '''
+      Returns the name of the country from its country code.
+      '''
       return session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
 
    def name_to_code(self, name):
+      '''
+      Returns the code of the country from its country name.
+      '''
       return session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
 
    def countries_data(self, countries, years):
+      '''
+      Returns a list of countries with each country a list of years with a dataset (gdp and growth).
+      '''
       countries_data_list = {}
       years_vect = [x for x in range(years[0], years[1] + 1)]
       for country in countries:
@@ -48,6 +68,9 @@ class Analyse:
       return countries_data_list
    
    def av_gdp(self, countries, years):
+      '''
+      Returns the average value of the gdp for a country list and a fixed period.
+      '''
       av_list = {}
       for country in countries:
          CC = self.name_to_code(country)
@@ -56,6 +79,9 @@ class Analyse:
       return av_list
    
    def av_growth(self, countries, years):
+      '''
+      Returns the average value of the growth for a country list and a fixed period.
+      '''
       av_list = {}
       for country in countries:
          CC = self.name_to_code(country)
