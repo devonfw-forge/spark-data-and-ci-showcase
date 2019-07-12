@@ -40,5 +40,5 @@ class TestAnalyse(TestCase):
         self.assertEqual(self.data.data_country('Zimbabwe')[-1][1], 31000519447.175)
 
     def test_data_country3(self):
-        self.assertEqual(self.data.data_country('Spain')[0][0], 1980)
+        self.assertNotEqual(self.data.data_country('Spain')[0][0], 1980)
 
