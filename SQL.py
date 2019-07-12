@@ -39,14 +39,12 @@ class Analyse:
    def name_to_code(self, name):
       return session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
 
-   def data_country(self, country):
-      return session.query(Gdp.Year, Gdp.gdp, Gdp.growth).filter_by(CountryCode=self.name_to_code(country)).all()
-
-   def countries_data(self):
+   def countries_data(self, countries, years):
       countries_data_list = {}
-      for country in self.countries():
-         countries_data_list[country] = self.data_country(country)
-
+      years_vect = [x for x in range(years[0], years[1] + 1)]
+      for country in countries:
+         countries_data_list[country] = session.query(Gdp.Year, Gdp.gdp, Gdp.growth).\
+            filter_by(CountryCode=self.name_to_code(country)).filter(Gdp.Year.in_(years_vect)).all()
       return countries_data_list
    
    def av_gdp(self, countries, years):
