@@ -41,4 +41,16 @@ class TestAnalyse(TestCase):
 
     def test_data_country3(self):
         self.assertNotEqual(self.data.data_country('Spain')[0][0], 1980)
+    
+        def test_max_growth_of_afghanistan_and_angola_between_1990_2000(self):
+        self.assertEqual(self.data.max_growth(["Afghanistan","Angola"],[1990,2000]), 15.0000000288634)
+
+    def test_min_growth_of_afghanistan_and_angola_between_1990_2000(self):
+        self.assertEqual(self.data.min_growth(["Afghanistan","Angola"],[1990,2000]), -23.9834174420578)
+
+    def test_max_growth_of_zambia_and_zimbabwe_between_1990_2000(self):
+        self.assertEqual(self.data.max_growth(["Zambia","Zimbabwe"],[1990,2000]), 10.3606967698065)
+
+    def test_min_growth_of_zambia_and_zimbabwe_between_1990_2000(self):
+        self.assertEqual(self.data.min_growth(["Zambia","Zimbabwe"],[1990,2000]), -9.01557008626092)
 
