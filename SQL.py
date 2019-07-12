@@ -89,7 +89,10 @@ class Analyse:
          av_list[country] = session.query(func.avg(Gdp.growth)).filter_by(CountryCode=CC).filter(Gdp.Year.in_(years_vect)).first()[0]
       return av_list
 
-    def min_gdp(self,listOfCountries,years):
+   def min_gdp(self,listOfCountries,years):
+        '''
+        Returns the minimum gdp between countries of listOfCountries for the given period years
+        '''
         list_of_code = {}
         for country in listOfCountries:
             name = self.name_to_code(country)
@@ -101,6 +104,9 @@ class Analyse:
         return min(list(list_of_code.values()))
 
     def max_gdp(self,listOfCountries,years):
+        '''
+        Returns the maximum gdp between countries of listOfCountries for the given period years
+        '''
         list_of_code = {}
         for country in listOfCountries:
             name = self.name_to_code(country)
@@ -112,17 +118,23 @@ class Analyse:
         return max(list(list_of_code.values()))
 
     def min_growth(self,listOfCountries,years):
+        '''
+        Returns the minimum growth between countries of listOfCountries for the given period years
+        '''
         list_of_code = {}
         for country in listOfCountries:
             name = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
-            list_of_code[country] = session.query(func.min(Gdp.growth)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).all()[0]
+            list_of_code[country] = session.query(func.min(Gdp.growth)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
         return min(list(list_of_code.values()))
 
     def max_growth(self,listOfCountries,years):
+        '''
+        Returns the maximum growth between countries of listOfCountries for the given period years
+        '''
         list_of_code = {}
         for country in listOfCountries:
             name = self.name_to_code(country)
@@ -132,4 +144,3 @@ class Analyse:
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
         return max(list(list_of_code.values()))
-
