@@ -57,7 +57,7 @@ class Analyse:
 
       return countries_data_list
    
-   def av(self, countries, years):
+   def av_gdp(self, countries, years):
       av_list = {}
       for country in countries:
          CC = self.name_to_code(country)
