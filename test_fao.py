@@ -1,5 +1,5 @@
 from unittest import TestCase
-from fao import Fao
+from FAO import Fao
 
 
 class TestFao(TestCase):
