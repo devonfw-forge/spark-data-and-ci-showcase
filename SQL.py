@@ -157,3 +157,7 @@ class Analyse:
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
         return max(list(list_of_code.values())), list_of_code
+    
+    
+
+session.close()
