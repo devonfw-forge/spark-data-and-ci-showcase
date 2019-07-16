@@ -1,4 +1,4 @@
-from WORLD_BANK import WorldBank
+from WorldBank import WorldBank
 
 
 class ApiWorldBank:
