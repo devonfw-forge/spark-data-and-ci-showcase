@@ -24,10 +24,11 @@ class WorldBank:
             country_list.append(country[0])
         return country_list
 
-    def population(self, country, years):
+    def population(self, country, years_l):
         '''
         Returns, for a country and a period given, the list of the population
         '''
+        years = [str(x) for x in years_l]
 
         for current_country in self.dataBase:
             if current_country[0] == country:
@@ -39,21 +40,22 @@ class WorldBank:
 
         return pop
 
-    def countries_pop(self, countries, years):
+    def countries_pop(self, countries, years_l):
         '''
         Returns, for a list of countries and a period given, the list of the population of each country
         '''
         final_list = {}
+        years = [str(x) for x in years_l]
         for country in countries:
             final_list[country] = self.population(country, years)
         return final_list
 
-    def growth(self, listOfCountries, years):
+    def growth(self, listOfCountries, years_l):
 
         indiceMin = 0
         indiceMax = 0
         result = {}
-
+        years = [str(x) for x in years_l]
         for country in self.dataBase:
 
             if country[0] in listOfCountries:
@@ -72,7 +74,8 @@ class WorldBank:
 
         return result
 
-    def indexYear(self, years):
+    def indexYear(self, years_l):
+        years = [str(x) for x in years_l]
         list_year = []
         list_year.append(self.dataHead[4:63])
         indexA = list_year[0].index(years[0]) + 4
@@ -85,7 +88,8 @@ class WorldBank:
             indexes.append(self.countries().index(i))
         return indexes
 
-    def minPoblacion(self, country_list, years):
+    def minPoblacion(self, country_list, years_l):
+        years = [str(x) for x in years_l]
         list1 = []
         list2 = []
         listeInt = []
@@ -118,7 +122,8 @@ class WorldBank:
 
         return dicc
 
-    def maxPoblacion(self, country_list, years):
+    def maxPoblacion(self, country_list, years_l):
+        years = [str(x) for x in years_l]
         list1 = []
         list2 = []
         listeInt = []
@@ -149,6 +154,8 @@ class WorldBank:
             dicc[country] = listeInt[i]
 
         return dicc
+
+
 
 
                 
