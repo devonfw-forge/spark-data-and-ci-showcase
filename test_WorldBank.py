@@ -1,43 +1,46 @@
 from unittest import TestCase
-from API import Api
+from worldbank import WorldBank
 
 
 class TestApi(TestCase):
     def setUp(self):
-        self.data = Api()
+        self.data = WorldBank()
 
-    def test_first_country(self):
-        self.assertEqual(self.data.countries()[0], "Aruba")
+    def test_countries(self):
+        countries = self.data.countries()
+        self.assertEqual(countries[0], "Aruba")
+        self.assertNotEqual(countries[1], "Andorra")
 
-    def test_second_country(self):
-        self.assertNotEqual(self.data.countries()[1], "Andorra")
+    def test_population(self):
+        countries = self.data.countries()
+        self.assertEqual(self.data.population(countries[0], ['1960', '1962'])[0], "54211")
 
-    def test_population_aruba_1960(self):
-        self.assertEqual(self.data.population('Aruba',['1960','1962'])[0], "54211")
+        self.assertNotEqual(self.data.population(countries[0], ['1960', '1962'])[2], "59063")
 
-    def test_population_aruba_1962(self):
-        self.assertNotEqual(self.data.population('Aruba',['1960','1962'])[2], "59063")
+    def test_countries_pop(self):
+        countries = self.data.countries()
+        self.assertEqual(self.data.countries_pop([countries[0], countries[1]], ['1960', '1962'])[countries[0]][0], '54211')
+        self.assertNotEqual(self.data.countries_pop([countries[0], countries[1]], ['1960', '1962'])[countries[1]][1], 57032)
 
-    def test_countries_pop_aruba(self):
-        self.assertEqual(self.data.countries_pop(['Aruba','Andorra'],['1960','1962'])[0][1][0], "54211")
+    def test_growth(self):
+        countries = self.data.countries()
+        self.assertEqual(self.data.growth([countries[0], countries[1]], ["1960", "1965"]),
+                         {countries[0]: 3149, countries[1] : 959347})
 
-    def test_countries_pop_andorra(self):
-        self.assertNotEqual(self.data.countries_pop(['Aruba','Andorra'],['1960','1962'])[0][1][1], "57032")
-   
-    def test_growth_Aruba_and_Afgha_1960_to_1965(self):
-        self.assertEqual(self.data.growth(["Aruba","Afghanistan"], ["1960", "1965"]), ["Aruba:3149", "Afghanistan:959347"])
+        self.assertNotEqual(self.data.growth([countries[0]], ["1960", "1961"]), {"Aruba": 3149 })
 
-    def test_growth_Aruba_1960_to_1961(self):
-        self.assertNotEqual(self.data.growth(["Aruba"], ["1960", "1961"]),["Aruba:3149"])
-        
     def test_minpoblacion(self):
-        self.assertEqual(self.data.minPoblacion(["Armenia", "Comoros", "Bahrain"],['1960', '1970']), [1874121, 191121, 162427])
+        countries = self.data.countries()
+        self.assertEqual(self.data.minPoblacion([countries[8], countries[12], countries[15]], ['1960', '1970']),
+                         {countries[8]: 1874121, countries[12]: 7047539, countries[15]: 9153489})
 
-    def test_minpoblacion2(self):
-        self.assertNotEqual(self.data.minPoblacion(["Brazil", "Barbados", "Gabon"],['1960', '1980']), [1874121, 191121, 162427])
+        self.assertNotEqual(self.data.minPoblacion([countries[7], countries[14], countries[20]], ['1960', '1980']),
+                            {countries[0]: 1874121, countries[10]: 162427, countries[15]: 191121})
 
     def test_maxpoblacion(self):
-        self.assertEqual(self.data.maxPoblacion(["Armenia", "Comoros", "Zimbabwe"], ['1970', '1980']),[3049109, 297447, 7160023])
+        countries = self.data.countries()
+        self.assertEqual(self.data.maxPoblacion([countries[8], countries[12], countries[15]], ['1970', '1980']),
+                         {countries[8]: 3049109, countries[12]: 7599038, countries[15]: 9848382})
 
-    def test_maxpoblacion2(self):
-        self.assertNotEqual(self.data.maxPoblacion(["Brazil", "Austria", "Gabon"], ['1960', '1980']),[4587, 191121, 162427])
+        self.assertNotEqual(self.data.maxPoblacion([countries[0], countries[1], countries[2]], ['1960', '1980']),
+                            [4587, 191121, 162427])
