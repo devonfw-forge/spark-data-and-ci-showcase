@@ -37,7 +37,7 @@ class WorldBank:
         for elt in pop:
             if elt == "":
                 pop[pop.index(elt)] = '0'
-
+            pop[pop.index(elt)] = int(pop[pop.index(elt)])
         return pop
 
     def countries_pop(self, countries, years_l):
@@ -154,6 +154,7 @@ class WorldBank:
             dicc[country] = listeInt[i]
 
         return dicc
+
 
 
 
