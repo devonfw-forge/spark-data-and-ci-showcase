@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from sqlalchemyy import Analyse
+from SQL import Analyse
 
 
 class TestAnalyse(TestCase):
