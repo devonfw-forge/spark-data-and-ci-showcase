@@ -1,5 +1,5 @@
 from unittest import TestCase
-from FAO import Fao
+from fao import Fao
 
 
 class TestFao(TestCase):
@@ -7,20 +7,29 @@ class TestFao(TestCase):
         self.data = Fao()
 
     def test_countries(self):
-        self.assertEqual(self.data.countries()[0], "Afghanistan")
+        countries = self.data.countries()
+        self.assertEqual(countries[0], "Afghanistan")
+        self.assertEqual(countries[42], "Cyprus")
+        self.assertEqual(countries[-1], "Zimbabwe")
+        self.assertEqual(countries[137], "Senegal")
+        self.assertEqual(len(countries), 174)
+
 
     def test_products(self):
-        self.assertEqual(self.data.products("Afghanistan")[0], "Wheat and products")
+        countries = self.data.countries()
+        self.assertEqual(self.data.products(countries[0])[0], "Wheat and products")
+        self.assertEqual(self.data.products(countries[-1])[0], "Wheat and products")
 
     def test_min(self):
-        self.assertEqual(self.data.min(["Afghanistan"], [2010, 2013])["Afghanistan"][0][-1], 0)
+        countries = self.data.countries()
+        self.assertEqual(self.data.min([countries[0]], [2010, 2013])[countries[0]][0][-1], 0)
 
     def test_max(self):
-        self.assertEqual(self.data.max(["Afghanistan"], [2010, 2013])["Afghanistan"][-1], 5495)
+        countries = self.data.countries()
+        self.assertEqual(self.data.max([countries[0]], [2010, 2013])[countries[0]][-1], 5495)
 
     def test_av(self):
-        self.assertEqual(self.data.av(["Afghanistan","Cyprus"], ['Y1961', 'Y1965'], "Wheat and products"), ["Afghanistan:1889.8","Cyprus:67.5"])
-
-
-        
+        countries = self.data.countries()
+        self.assertEqual(self.data.av([countries[0], countries[42]], [1961, 1965], "Wheat and products","Food"),
+                         {countries[0] : 1889.8, countries[42] : 67.4})
 
