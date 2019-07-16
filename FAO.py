@@ -1,6 +1,7 @@
 import json
 import statistics
 
+
 class Fao:
 
     def __init__(self):
@@ -35,12 +36,9 @@ class Fao:
         '''
         Returns a list of countries with each country a production list
         '''
-        final_list = []
+        final_list = {}
         for country in countries:
-            int_list =[country]
-            int_list.append(self.products(country))
-            final_list.append(int_list)
-
+            final_list[country] = self.products(country)
         return final_list
 
     def max(self, country_list, years):
@@ -50,7 +48,7 @@ class Fao:
         country_dic = {}
         years_list = []
 
-        for date in range(years[0], years[-1]+1):
+        for date in range(years[0], years[-1] + 1):
             years_list.append("Y" + str(date))
 
         for country in country_list:
@@ -63,7 +61,7 @@ class Fao:
 
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
-                        
+
                         for elt in currentyield.items():
                             if elt[1] == "":
                                 currentyield[elt[0]] = 0
@@ -71,11 +69,15 @@ class Fao:
                         if currentyield[max(currentyield)] > country_dic[country][-1]:
                             country_dic[country] = [production, max(currentyield), currentyield[max(currentyield)]]
 
+                        if othermax != [] and currentyield[max(currentyield)] > othermax[-1][2]:
+                            othermax = []
+
                         elif currentyield[max(currentyield)] == country_dic[country][-1]:
                             othermax.append([production, max(currentyield), currentyield[max(currentyield)]])
 
             if othermax != []:
-                country_dic[country] = [country_dic[country], othermax]
+                othermax.append(country_dic[country])
+                country_dic[country] = othermax
 
         return country_dic
 
@@ -86,7 +88,7 @@ class Fao:
         country_dic = {}
         years_list = []
 
-        for date in range(years[0], years[-1]+1):
+        for date in range(years[0], years[-1] + 1):
             years_list.append("Y" + str(date))
 
         for country in country_list:
@@ -107,33 +109,39 @@ class Fao:
                         if currentyield[min(currentyield)] < country_dic[country][-1]:
                             country_dic[country] = [production, min(currentyield), currentyield[min(currentyield)]]
 
+                        if othermin != [] and currentyield[min(currentyield)] < othermin[-1][2]:
+                            othermin = []
+
                         elif currentyield[min(currentyield)] == country_dic[country][-1]:
                             othermin.append([production, min(currentyield), currentyield[min(currentyield)]])
 
             if othermin != []:
-                country_dic[country] = [country_dic[country], othermin]
+                othermin.append(country_dic[country])
+                country_dic[country] = othermin
 
         return country_dic
-    
-    # parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
-    def av(self, listOfCountries, years, Production):
-        mean_list = []
-        yearsRange = []
-        yearsRange.append(years[0][1:])
-        yearsRange.append(years[1][1:])
 
-        result_list = []
-        for element in self.dataBase:
-            if element["Area"] in listOfCountries and element["Item"] == Production and element["Element"] == "Food":
+    # parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
+    def av(self, listOfCountries, years, Production, direction):
+        mean_list = {}
+        years_list = []
+
+        for date in range(years[0], years[-1] + 1):
+            years_list.append("Y" + str(date))
+
+        for country in listOfCountries:
+            result_list = []
+            for element in self.dataBase:
+                if element["Area"] == country and element["Item"] == Production and element["Element"] == direction:
                 # replace empty item by 0
 
-                for i in range(int(yearsRange[0]), int(yearsRange[1]) + 1):
-                    if element["Y" + str(i)] == "":
-                        element["Y" + str(i)] = 0
+                    for i in years_list:
+                        if element[i] == "":
+                            element[i] = 0
+                        result_list.append(element[i])
 
-                    result_list.append(element["Y" + str(i)])
-                mean_list.append(element["Area"] + ":" + str(statistics.mean(result_list)))
-                result_list = []
+            mean_list[country] = statistics.mean(result_list)
 
         return mean_list
+
 
