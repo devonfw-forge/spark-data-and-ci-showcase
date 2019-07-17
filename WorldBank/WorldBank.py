@@ -24,11 +24,11 @@ class WorldBank:
             country_list.append(country[0])
         return country_list
 
-    def population(self, country, years_l):
+    def population(self, country, list_years):
         '''
         Returns, for a country and a period given, the list of the population
         '''
-        years = [str(x) for x in years_l]
+        years = [str(x) for x in list_years]
 
         for current_country in self.dataBase:
             if current_country[0] == country:
@@ -40,18 +40,21 @@ class WorldBank:
             pop[pop.index(elt)] = int(pop[pop.index(elt)])
         return pop
 
-    def countries_pop(self, countries, years_l):
+    def countries_pop(self, countries, list_years):
         '''
-        Returns, for a list of countries and a period given, the list of the population of each country
+        Returns, for a list of countries and a period given, the list of the population for each country
         '''
         final_list = {}
-        years = [str(x) for x in years_l]
+        years = [str(x) for x in list_years]
         for country in countries:
             final_list[country] = self.population(country, years)
         return final_list
 
-    def growth(self, listOfCountries, years_l):
-
+    def growth(self, listOfCountries, list_years):
+        '''
+        returns, for a given list of countries and year range, the list of the growth for each country
+        '''
+        
         indiceMin = 0
         indiceMax = 0
         result = {}
