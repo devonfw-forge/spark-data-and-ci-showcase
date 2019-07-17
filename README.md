@@ -13,7 +13,7 @@ Go to your project folder and execute:
 ```bash
 pipenv install
 ```
-
+Attention : to install your virtual environment your should either have a Pipfile or a requirement.txt file
 Now you can use you virtualenv with 
 ```bash
 pipenv shell
