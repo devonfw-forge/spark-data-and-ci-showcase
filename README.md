@@ -18,3 +18,7 @@ Now you can use you virtualenv with
 ```bash
 pipenv shell
 ```
+Then you can run a python file using the shell
+```bash
+pipenv run python your_file.py
+```
