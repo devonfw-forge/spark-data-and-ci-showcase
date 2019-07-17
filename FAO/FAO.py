@@ -121,7 +121,7 @@ class Fao:
 
         return country_dic
 
-    # parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
+     # parameters : years -> range of years, Production of the concerned countries specified in listOfCountries
     def av(self, listOfCountries, years, Production, direction):
         mean_list = {}
         years_list = []
@@ -130,16 +130,18 @@ class Fao:
             years_list.append("Y" + str(date))
 
         for country in listOfCountries:
-            result_list = []
-            for element in self.dataBase:
-                if element["Area"] == country and element["Item"] == Production and element["Element"] == direction:
-                # replace empty item by 0
+            for prod in Production:
+                result_list = []
+                for element in self.dataBase:
+                    if element["Area"] == country and element["Item"] in Production and element["Element"] == direction:
+                    # replace empty item by 0
 
-                    for i in years_list:
-                        if element[i] == "":
-                            element[i] = 0
-                        result_list.append(element[i])
+                        for i in years_list:
+                            if element[i] == "":
+                                element[i] = 0
 
+                            result_list.append(element[i])
+            print(result_list)
             mean_list[country] = statistics.mean(result_list)
 
         return mean_list
