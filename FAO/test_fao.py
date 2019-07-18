@@ -7,7 +7,7 @@ class TestFao(TestCase):
         self.data = Fao()
 
     def test_countries(self):
-        countries = self.data.countries()
+        countries = self.data.list_countries()
         self.assertEqual(countries[0], "Afghanistan")
         self.assertEqual(countries[42], "Cyprus")
         self.assertEqual(countries[-1], "Zimbabwe")
@@ -16,20 +16,20 @@ class TestFao(TestCase):
 
 
     def test_products(self):
-        countries = self.data.countries()
-        self.assertEqual(self.data.products(countries[0])[0], "Wheat and products")
-        self.assertEqual(self.data.products(countries[-1])[0], "Wheat and products")
+        countries = self.data.list_countries()
+        self.assertEqual(self.data.list_products_countries(countries[0])[0], "Wheat and products")
+        self.assertEqual(self.data.list_products_countries(countries[-1])[0], "Wheat and products")
 
     def test_min(self):
-        countries = self.data.countries()
-        self.assertEqual(self.data.min([countries[0]], [2010, 2013])[countries[0]][0][-1], 0)
+        countries = self.data.list_countries()
+        self.assertEqual(self.data.min_production_countries([countries[0]], [2010, 2013])[countries[0]][0][-1], 0)
 
     def test_max(self):
-        countries = self.data.countries()
-        self.assertEqual(self.data.max([countries[0]], [2010, 2013])[countries[0]][-1], 5495)
+        countries = self.data.list_countries()
+        self.assertEqual(self.data.max_production_countries([countries[0]], [2010, 2013])[countries[0]][-1], 5495)
 
-    def test_av(self):
-        countries = self.data.countries()
-        self.assertEqual(self.data.av([countries[0], countries[42]], [1961, 1965], "Wheat and products","Food"),
+    def test_average_production(self):
+        countries = self.data.list_countries()
+        self.assertEqual(self.data.average_production([countries[0], countries[42]], [1961, 1965], "Wheat and products","Food"),
                          {countries[0] : 1889.8, countries[42] : 67.4})
 
