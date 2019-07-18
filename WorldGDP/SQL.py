@@ -281,4 +281,21 @@ class Analyse:
                 list_of_code[elt[0]] = 0
         return max(list(list_of_code.values())), list_of_code
         session.close()
+        
+    def av_gdp_growth_prod(self, countries_list, years_list, production_type):
+        '''
+        Returns a list with the countries and their average gdp, growth and production in years_list
+        '''
+
+        data_tables = create_engine('sqlite:///world-gdp.db')
+        Session = sessionmaker(bind=data_tables)
+        session = Session()
+
+        f = Fao()
+        result_list = {}
+        for country in countries_list:
+            result_list[country] = ["average growth: "+str(list(self.av_growth([country], years_list).values())[0]),"average gdp: "+str(list(self.av_gdp([country], years_list).values())[0]), "average production: "+ str(list(f.average_production([country], years_list, production_type, "Food").values())[0])]
+
+        return result_list
+        session.close()
 
