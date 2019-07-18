@@ -36,124 +36,147 @@ class Analyse:
    Class with all the data analyse functions.
    '''
 
-    def countries(self):
+    def list_countries(self):
         '''
-      Returns the list of all the countries.
-      '''
-
+        Return the list of all the countries
+        :return: list_countries
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
-        return [x[0] for x in session.query(Countries.CountryName).all()]
+        list_countries = [x[0] for x in session.query(Countries.CountryName).all()]
         session.close()
+        return list_countries
 
     def geo_zone(self):
+        '''
+        Returns a dictionary that associates each country with it zone.
+        :return: geo_dic
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
 
         geo_dic = {}
-        self.dataCountry = []
-        self.dataZone = []
+        dataCountry = []
+        dataZone = []
 
         with open("Book1.csv") as csv_file:
             for row in csv.reader(csv_file, delimiter=';'):
-                self.dataCountry.append(row[0])
-                self.dataZone.append(row[1])
-        for i, country in enumerate(self.dataCountry):
-            if country in self.countries():
-                geo_dic[country] = self.dataZone[i]
-        return geo_dic
-
+                dataCountry.append(row[0])
+                dataZone.append(row[1])
+        for i, country in enumerate(dataCountry):
+            if country in self.list_countries():
+                geo_dic[country] = dataZone[i]
         session.close()
-
+        return geo_dic
 
     def countries_code(self):
         '''
-      Returns the list of all the countries.
-      '''
+        Returns the list of all the countries' codes.
+        :return: countries_code
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
-        return [x[0] for x in session.query(Countries.CountryCode).all()]
+        countries_code = [x[0] for x in session.query(Countries.CountryCode).all()]
         session.close()
+        return countries_code
 
     def code_to_name(self, code):
         '''
-      Returns the name of the country from its country code.
-      '''
+        Returns the name of the country from its country code.
+        :param code:
+        :return: name
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
-        return session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
+        name = session.query(Countries.CountryName).filter_by(CountryCode=code).first()[0]
         session.close()
+        return name
 
     def name_to_code(self, name):
         '''
-      Returns the code of the country from its country name.
-      '''
+        Returns the name of the country from its country code.
+        :param name:
+        :return: code
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
-        return session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
+        code = session.query(Countries.CountryCode).filter_by(CountryName=name).first()[0]
         session.close()
+        return code
 
     def countries_data(self, countries, years):
         '''
-      Returns a list of countries with each country a list of years with a dataset (gdp and growth).
-      '''
+        Returns a dictionary of countries with each country a list of years with a data set (gdp and growth).
+        :param countries:
+        :param years:
+        :return: countries_data_dic
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
 
-        countries_data_list = {}
+        countries_data_dic = {}
         years_vect = [x for x in range(years[0], years[1] + 1)]
         for country in countries:
-            countries_data_list[country] = list(session.query(Gdp.Year, Gdp.gdp, Gdp.growth)\
+            countries_data_dic[country] = list(session.query(Gdp.Year, Gdp.gdp, Gdp.growth)\
                 .filter_by(CountryCode=self.name_to_code(country)).filter(Gdp.gdp != '').filter(Gdp.Year.in_(years_vect)).all())
-            for i, elt in enumerate(countries_data_list[country]):
-                countries_data_list[country][i] = list(countries_data_list[country][i])
+            for i, elt in enumerate(countries_data_dic[country]):
+                countries_data_dic[country][i] = list(countries_data_dic[country][i])
 
-        return countries_data_list
         session.close()
+        return countries_data_dic
 
-    def av_gdp(self, countries, years):
+    def average_gdp(self, countries, years):
         '''
         Returns the average value of the gdp for a country list and a fixed period.
+        :param countries:
+        :param years:
+        :return: av_dic
         '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
 
-        av_list = {}
+        av_dic = {}
         for country in countries:
             CC = self.name_to_code(country)
             years_vec = [x for x in range(years[0], years[1] + 1)]
-            av_list[country] = session.query(func.avg(Gdp.gdp))\
+            av_dic[country] = session.query(func.avg(Gdp.gdp))\
                 .filter_by(CountryCode=CC).filter(Gdp.gdp != '').filter(Gdp.Year.in_(years_vec)).first()[0]
-        return av_list
         session.close()
+        return av_dic
 
-    def av_growth(self, countries, years):
+    def average_growth(self, countries, years):
         '''
         Returns the average value of the growth for a country list and a fixed period.
+        :param countries:
+        :param years:
+        :return: av_dic
         '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
 
-        av_list = {}
+        av_dic = {}
         for country in countries:
             CC = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
-            av_list[country] = session.query(func.avg(Gdp.growth)) \
+            av_dic[country] = session.query(func.avg(Gdp.growth)) \
                 .filter_by(CountryCode=CC).filter(Gdp.growth != '').filter(Gdp.Year.in_(years_vect)).first()[0]
-
-        return av_list
         session.close()
+        return av_dic
 
     def world_health(self, years):
-
+        '''
+        Returns the world health and the geographic place of the countries in crisis
+        :param years:
+        :return: world health, region dic and unknown countries number
+        '''
         crisis = 0
         exception = 0
         health = 0
@@ -161,12 +184,12 @@ class Analyse:
         dic = self.geo_zone()
         dic_keys = list(dic.keys())
         region_dic ={'Asia & Pacific':0 ,'Europe':0 , 'Arab States':0 , 'Africa':0 , \
-                      'South/Latin America':0 , 'North America':0}
+                      'South/Latin America':0 , 'Unknown':0, 'North America':0}
 
-        for country in self.countries():
+        for country in self.list_countries():
 
-            past_gdp = self.av_growth([country], [years[0]-5, years[0]-1])[country]
-            now_gdp = self.av_growth([country], years)[country]
+            past_gdp = self.average_growth([country], [years[0]-5, years[0]-1])[country]
+            now_gdp = self.average_growth([country], years)[country]
 
             if past_gdp == None or now_gdp == None:
                 exception += 1
@@ -183,10 +206,10 @@ class Analyse:
                 else:
                     health += 1
 
-
-        health_percentage = (health / len(self.countries()))*100
-        crisis_percentage = (crisis / len(self.countries()))*100
-        exception_percentage = (exception / len(self.countries()))*100
+        list_countries_len = len(self.list_countries())
+        health_percentage = (health / list_countries_len)*100
+        crisis_percentage = (crisis / list_countries_len)*100
+        exception_percentage = (exception / list_countries_len)*100
 
         print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%"\
               .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
@@ -204,8 +227,11 @@ class Analyse:
 
     def min_gdp(self, listOfCountries, years):
         '''
-      Returns the minimum gdp between countries of listOfCountries for the given period years
-      '''
+        Returns the minimum gdp of each countries of listOfCountries for the given period years, and the global minimum
+        :param listOfCountries:
+        :param years:
+        :return: global min and min for each country
+        '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
@@ -219,13 +245,16 @@ class Analyse:
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
-        return min(list(list_of_code.values())), list_of_code
         session.close()
+        return min(list(list_of_code.values())), list_of_code
 
     def max_gdp(self, listOfCountries, years):
         '''
-      Returns the maximum gdp between countries of listOfCountries for the given period years
-      '''
+         Returns the maximum gdp of each countries of listOfCountries for the given period years, and the global maximum
+         :param listOfCountries:
+         :param years:
+         :return: global max and max for each country
+         '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
@@ -239,13 +268,17 @@ class Analyse:
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
-        return max(list(list_of_code.values())), list_of_code
         session.close()
+        return max(list(list_of_code.values())), list_of_code
+
 
     def min_growth(self, listOfCountries, years):
         '''
-      Returns the minimum growth between countries of listOfCountries for the given period years
-      '''
+         Returns the minimum growth of each countries of listOfCountries for the given period years, and the global minimum
+         :param listOfCountries:
+         :param years:
+         :return: global min and min for each country
+         '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
@@ -259,13 +292,16 @@ class Analyse:
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
-        return min(list(list_of_code.values())), list_of_code
         session.close()
+        return min(list(list_of_code.values())), list_of_code
 
     def max_growth(self, listOfCountries, years):
         '''
-      Returns the maximum growth between countries of listOfCountries for the given period years
-      '''
+         Returns the maximum growth of each countries of listOfCountries for the given period years, and the global maximum
+         :param listOfCountries:
+         :param years:
+         :return: global max and max for each country
+         '''
         data_tables = create_engine('sqlite:///world-gdp.db')
         Session = sessionmaker(bind=data_tables)
         session = Session()
@@ -279,8 +315,9 @@ class Analyse:
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
-        return max(list(list_of_code.values())), list_of_code
         session.close()
+        return max(list(list_of_code.values())), list_of_code
+
         
     def av_gdp_growth_prod(self, countries_list, years_list, production_type):
         '''
