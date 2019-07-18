@@ -218,19 +218,29 @@ class Fao:
             years_list.append("Y" + str(date))
 
         for country in country_list:
-            result_list = []
-            for element in self.dataBase:
-                if element["Area"] == country and element["Item"] == production_type and element["Element"] == direction:
+            for prod in production_type:
+                result_list = []
+                for element in self.dataBase:
+                    if element["Area"] == country and element["Item"] in production_type and element["Element"] == direction:
 
-                    for i in years_list:
-                        if element[i] == "":
-                            element[i] = 0
-                        result_list.append(element[i])
-
-            av_dic[country] = statistics.mean(result_list)
+                        for i in years_list:
+                            if element[i] == "":
+                                element[i] = 0
+                            result_list.append(element[i])
+                #print(result_list)
+                av_dic[country] = statistics.mean(result_list)
 
         return av_dic
 
-
+    def country_products(self, listOfCountries):
+        '''
+        Returns all products for a given country.
+        '''
+        products_list = []
+        for country in listOfCountries:
+            for element in self.dataBase:
+                if element["Area"] == country and element["Item"] not in products_list:
+                    products_list.append(element["Item"])
+        return products_list
 
 
