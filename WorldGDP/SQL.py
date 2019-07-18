@@ -246,7 +246,6 @@ class Analyse:
 
 A= Analyse()
 
-print(A.av_gdp_growth_prod(["Afghanistan", "Angola"],[1997,1998],["Wheat and products", "Rice (Milled Equivalent)"]))
-
-print(A.av_gdp_growth_prod(["Afghanistan", "Angola"],[2008,2010],["Wheat and products", "Rice (Milled Equivalent)"]))
+#print(A.av_gdp_growth_prod(["Afghanistan", "Angola"],[1997,1998],["Wheat and products", "Rice (Milled Equivalent)"]))
+#print(A.av_gdp_growth_prod(["Afghanistan", "Angola"],[2008,2010],["Wheat and products", "Rice (Milled Equivalent)"]))
 
