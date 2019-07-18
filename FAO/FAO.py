@@ -227,7 +227,6 @@ class Fao:
                             if element[i] == "":
                                 element[i] = 0
                             result_list.append(element[i])
-                #print(result_list)
                 av_dic[country] = statistics.mean(result_list)
 
         return av_dic
