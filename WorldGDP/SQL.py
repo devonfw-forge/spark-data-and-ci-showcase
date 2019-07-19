@@ -3,7 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import csv
 from difflib import SequenceMatcher
-from fao import *
+from FAO import Fao
+
 
 Base = declarative_base()
 
@@ -36,6 +37,8 @@ class Analyse:
     '''
    Class with all the data analyse functions.
    '''
+    def __init__(self):
+        self.F = Fao()
 
     def list_countries(self):
         '''
@@ -185,6 +188,8 @@ class Analyse:
         exception = 0
         health = 0
         unknown_countries = 0
+        countries_crisis = []
+
         dic = self.geo_zone()
         dic_keys = list(dic.keys())
         region_dic ={'Asia & Pacific':0 ,'Europe':0 , 'Arab States':0 , 'Africa':0 , \
@@ -201,14 +206,20 @@ class Analyse:
 
                 if now_gdp < past_gdp:
                     crisis += 1
+                    countries_crisis.append(country)
+
                     for elt in dic_keys:
                         if self.similar(elt, country) > 0.7:
                             region = dic[elt]
+                            #print(country,region)
                             region_dic[region] += 1
                             break
 
                 else:
                     health += 1
+
+        production_conclusion = self.production_growth(countries_crisis[:5], years)
+        print(production_conclusion)
 
         list_countries_len = len(self.list_countries())
         health_percentage = (health / list_countries_len)*100
@@ -320,6 +331,25 @@ class Analyse:
                 list_of_code[elt[0]] = 0
         session.close()
         return max(list(list_of_code.values())), list_of_code
+
+    def production_growth(self, country_list, years):
+        production_dic = {}
+        for prod in self.F.list_products():
+            production_dic[prod] = [0, 0]
+
+        for country in country_list:
+            for prod in self.F.list_products_country(country):
+
+                production_dic[prod][0] += self.F.average_production([country], years, prod)[country]
+                production_dic[prod][1] += self.F.average_production([country], [years[0]-5, years[0]-1], prod)[country]
+
+        conclusion = {'last 5 years growth' : 0, 'period growth' : 0}
+        for prod in list(production_dic.keys()):
+            conclusion['last 5 years growth'] += production_dic[prod][1]
+            conclusion['period growth'] += production_dic[prod][0]
+
+        return conclusion
+
     
         
         def av_gdp_growth_prod(self, countries_list, years_list, production_type):
