@@ -1,6 +1,7 @@
 import json
 import statistics
 import os
+import csv
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'FAO+database.json')
@@ -26,6 +27,14 @@ class Fao:
                 country_list.append(element["Area"])
         return country_list
 
+    def list_products(self):
+
+        product_list = []
+        for element in self.dataBase:
+            if element["Item"] not in product_list:
+                product_list.append(element["Item"])
+        return product_list
+
     def list_products_country(self, country):
         '''
         Returns a list of all the products for a given country.
@@ -40,7 +49,7 @@ class Fao:
 
     def list_products_countries(self, country_list):
         """
-        Returns a list of countries with each country its production list.
+        Returns a dictionary of countries with each country its production list.
         :param country_list:
         :return: products_countries_dic
         """
@@ -202,7 +211,7 @@ class Fao:
 
         return country_dic
 
-    def average_production(self, country_list, years_range, production_type, direction):
+    def average_production(self, country_list, years_range, production_type):
         '''
         Returns the average of production  for some given countries, a fixed date and a production type given
         :param country_list:
@@ -218,29 +227,20 @@ class Fao:
             years_list.append("Y" + str(date))
 
         for country in country_list:
-            for prod in production_type:
-                result_list = []
-                for element in self.dataBase:
-                    if element["Area"] == country and element["Item"] in production_type and element["Element"] == direction:
+            result_list = []
+            for element in self.dataBase:
+                if element["Area"] == country and element["Item"] == production_type and element["Element"] == 'Food':
 
-                        for i in years_list:
-                            if element[i] == "":
-                                element[i] = 0
-                            result_list.append(element[i])
-                av_dic[country] = statistics.mean(result_list)
+                    for i in years_list:
+                        if element[i] == "":
+                            element[i] = 0
+                        result_list.append(element[i])
+                else:
+                    result_list.append(0)
+
+            av_dic[country] = statistics.mean(result_list)
 
         return av_dic
-
-    def country_products(self, listOfCountries):
-        '''
-        Returns all products for a given country.
-        '''
-        products_list = []
-        for country in listOfCountries:
-            for element in self.dataBase:
-                if element["Area"] == country and element["Item"] not in products_list:
-                    products_list.append(element["Item"])
-        return products_list
     
     
 
