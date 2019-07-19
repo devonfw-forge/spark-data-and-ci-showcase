@@ -183,12 +183,12 @@ class Analyse:
         unknown_countries = 0
         dic = self.geo_zone()
         dic_keys = list(dic.keys())
-        region_dic ={'Asia & Pacific':0 ,'Europe':0 , 'Arab States':0 , 'Africa':0 , \
-                      'South/Latin America':0 , 'Unknown':0, 'North America':0}
+        region_dic = {'Asia & Pacific': 0, 'Europe': 0, 'Arab States': 0, 'Africa': 0, \
+                      'South/Latin America': 0, 'Unknown': 0, 'North America': 0}
 
         for country in self.list_countries():
 
-            past_gdp = self.average_growth([country], [years[0]-5, years[0]-1])[country]
+            past_gdp = self.average_growth([country], [years[0] - 5, years[0] - 1])[country]
             now_gdp = self.average_growth([country], years)[country]
 
             if past_gdp == None or now_gdp == None:
@@ -207,23 +207,28 @@ class Analyse:
                     health += 1
 
         list_countries_len = len(self.list_countries())
-        health_percentage = (health / list_countries_len)*100
-        crisis_percentage = (crisis / list_countries_len)*100
-        exception_percentage = (exception / list_countries_len)*100
+        health_percentage = (health / list_countries_len) * 100
+        crisis_percentage = (crisis / list_countries_len) * 100
+        exception_percentage = (exception / list_countries_len) * 100
 
-        print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%"\
-              .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
+        print(
+            '\nFor the year {} to {} :\n'.format(years[0], years[1]))
+        print(
+            "Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%\n" \
+            .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
 
-        max_of_three = max([health_percentage, crisis_percentage, exception_percentage ])
+        max_of_three = max([health_percentage, crisis_percentage, exception_percentage])
 
         if max_of_three == exception_percentage:
             return ('Not enought data')
 
         elif max_of_three == crisis_percentage:
-            return ('World in crisis', region_dic, unknown_countries)
+            print('World in crisis !\n')
+            return region_dic, unknown_countries
 
         elif max_of_three == health_percentage:
-            return ('World is good', region_dic, unknown_countries)
+            print('World is in good shape !\n')
+            return region_dic, unknown_countries
 
     def min_gdp(self, listOfCountries, years):
         '''
