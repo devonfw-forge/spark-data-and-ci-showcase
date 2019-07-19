@@ -6,6 +6,7 @@ import csv
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 my_file = os.path.join(THIS_FOLDER, 'FAO+database.json')
 
+
 class Fao:
 
     def __init__(self):
@@ -125,7 +126,6 @@ class Fao:
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
 
-
                         for elt in currentyield.items():
                             if elt[1] == "":
                                 currentyield[elt[0]] = 0
@@ -167,7 +167,6 @@ class Fao:
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
 
-
                         for elt in currentyield.items():
                             if elt[1] == "":
                                 currentyield[elt[0]] = 0
@@ -199,7 +198,6 @@ class Fao:
 
                     if element["Area"] == country and element["Item"] == production:
                         currentyield = {key: element[key] for key in years_list}
-
 
                         for elt in currentyield.items():
                             if elt[1] == "":
@@ -241,8 +239,8 @@ class Fao:
             av_dic[country] = statistics.mean(result_list)
 
         return av_dic
-    
-    
+
+
 
 
 
