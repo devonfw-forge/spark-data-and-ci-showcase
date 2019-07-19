@@ -57,7 +57,7 @@ class WorldBank:
             population_dic[country] = self.list_population(country, years_list_str)
         return population_dic
 
-    def growth(self, listOfCountries, years):
+    def growth_countries_in_years_range(self, listOfCountries, years):
         '''
         Returns a dictionary with the growth of each country given in a fixed period
         :param listOfCountries:
@@ -85,28 +85,44 @@ class WorldBank:
 
         return growth_dic
 
-    def indexYear(self, years_l):
-        years = [str(x) for x in years_l]
+    def index_years(self, years_tuple):
+        '''
+        Return the indexes in the self.DataHead of the two years entered in the parameter years_tuple. This function help for the min and max functions
+        :param years_tuple: this parameter has to be a tuple of two years, which the first is the the beginning of the range and the last the end of it.
+        :return: indexA, indexB
+        '''
+        years = [str(x) for x in years_tuple]
         list_year = []
         list_year.append(self.dataHead[4:63])
         indexA = list_year[0].index(years[0]) + 4
         indexB = list_year[0].index(years[1]) + 4
         return indexA, indexB
 
-    def indexCountries(self, country_list):
+    def index_countries(self, country_list):
+        '''
+            Return a list of indexes encountered in the country_list parameter of the different countries in it. This function help for the min and max functions
+            :param country_list: this parameter is the list of countries we want to know the indexes
+            :return: indexes
+        '''
         indexes = []
         for i in country_list:
             indexes.append(self.list_countries().index(i))
         return indexes
 
-    def minPoblacion(self, country_list, years_l):
+    def min_populations_in_range(self, country_list, years_l):
+        '''
+            Return the minimum population of each country specified in the list parameter years_l
+            :param country_list: this parameter is the list of countries we want to know the minimum population
+            :param years_l: this parameter is list of two years in order to apply a range for the study
+            :return: dicc: this is the dictionary returned with the countries as the key and the minimum as the value
+        '''
         years = [str(x) for x in years_l]
         list1 = []
         list2 = []
         listeInt = []
         listeStr = []
-        indexesCountries = self.indexCountries(country_list)
-        indexYears = self.indexYear(years)
+        indexesCountries = self.index_countries(country_list)
+        indexYears = self.index_years(years)
 
         dicc = {}
 
@@ -133,14 +149,20 @@ class WorldBank:
 
         return dicc
 
-    def maxPoblacion(self, country_list, years_l):
+    def max_populations_in_range(self, country_list, years_l):
+        '''
+            Return the maximum population of each country specified in the list parameter years_l
+            :param country_list: this parameter is the list of countries we want to know the maximum population
+            :param years_l: this parameter is list of two years in order to apply a range for the study
+            :return: dicc: this is the dictionary returned with the countries as the key and the maximum as the value
+        '''
         years = [str(x) for x in years_l]
         list1 = []
         list2 = []
         listeInt = []
         listeStr = []
-        indexesCountries = self.indexCountries(country_list)
-        indexYears = self.indexYear(years)
+        indexesCountries = self.index_countries(country_list)
+        indexYears = self.index_years(years)
 
         dicc = {}
         for i in indexesCountries:
@@ -166,13 +188,3 @@ class WorldBank:
 
         return dicc
 
-
-
-
-
-                
-
-            
-
-    
-    
