@@ -408,14 +408,7 @@ class Analyse:
 A = Analyse()
 f = Fao()
 
-# print(A.conclusion_gdp_growth_prod(liste,year_range_1, year_range_2, f.country_products(liste)))
-
-
 L = ['Afghanistan', 'Albania', 'Algeria']
 
-# print(L)
-
-# print(A.av_gdp_growth_prod(L,[1985,1989], f.country_products(L)))
-# print(A.av_gdp_growth_prod(L,[1990,1992], f.country_products(L)))
 print(A.conclusion_gdp_growth_prod(L, [1985, 1989], [1990, 1992], f.country_products(L)))
 
