@@ -204,7 +204,6 @@ class Analyse:
                     for elt in dic_keys:
                         if self.similar(elt, country) > 0.7:
                             region = dic[elt]
-                            print(country,region)
                             region_dic[region] += 1
                             break
 
