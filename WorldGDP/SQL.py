@@ -440,5 +440,5 @@ f = Fao()
 
 L = ['Afghanistan', 'Albania', 'Algeria']
 
-print(A.conclusion_gdp_growth_prod(L, [1985, 1989], [1990, 1992], f.country_products(L)))
+print(A.conclusion_gdp_growth_prod(L, [1985, 1989], [1990, 1992], f.list_products_countries(L)))
 
