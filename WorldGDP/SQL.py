@@ -392,6 +392,10 @@ class Analyse:
 A= Analyse()
 f = Fao()
 
+print(A.world_health([1974, 1975]))
+print(' \n ')
+print(A.world_health([1990, 1992]))
+
 liste = []
 countries = input ("How many countries: ")
 nb_countries = int(countries)
