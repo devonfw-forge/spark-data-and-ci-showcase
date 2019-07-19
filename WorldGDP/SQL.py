@@ -2,6 +2,7 @@ from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import csv
+from difflib import SequenceMatcher
 
 
 Base = declarative_base()
@@ -109,6 +110,9 @@ class Analyse:
         session.close()
         return code
 
+    def similar(self, a, b):
+        return SequenceMatcher(None, a, b).ratio()
+
     def countries_data(self, countries, years):
         '''
         Returns a dictionary of countries with each country a list of years with a data set (gdp and growth).
@@ -183,12 +187,12 @@ class Analyse:
         unknown_countries = 0
         dic = self.geo_zone()
         dic_keys = list(dic.keys())
-        region_dic = {'Asia & Pacific': 0, 'Europe': 0, 'Arab States': 0, 'Africa': 0, \
-                      'South/Latin America': 0, 'Unknown': 0, 'North America': 0}
+        region_dic ={'Asia & Pacific':0 ,'Europe':0 , 'Arab States':0 , 'Africa':0 , \
+                      'South/Latin America':0 , 'Unknown':0, 'North America':0}
 
         for country in self.list_countries():
 
-            past_gdp = self.average_growth([country], [years[0] - 5, years[0] - 1])[country]
+            past_gdp = self.average_growth([country], [years[0]-5, years[0]-1])[country]
             now_gdp = self.average_growth([country], years)[country]
 
             if past_gdp == None or now_gdp == None:
@@ -197,38 +201,34 @@ class Analyse:
 
                 if now_gdp < past_gdp:
                     crisis += 1
-                    if country in dic_keys:
-                        region = dic[country]
-                        region_dic[region] += 1
-                    else:
-                        unknown_countries += 1
+                    for elt in dic_keys:
+                        if self.similar(elt, country) > 0.7:
+                            region = dic[elt]
+                            print(country,region)
+                            region_dic[region] += 1
+                            break
 
                 else:
                     health += 1
 
         list_countries_len = len(self.list_countries())
-        health_percentage = (health / list_countries_len) * 100
-        crisis_percentage = (crisis / list_countries_len) * 100
-        exception_percentage = (exception / list_countries_len) * 100
+        health_percentage = (health / list_countries_len)*100
+        crisis_percentage = (crisis / list_countries_len)*100
+        exception_percentage = (exception / list_countries_len)*100
 
-        print(
-            '\nFor the year {} to {} :\n'.format(years[0], years[1]))
-        print(
-            "Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%\n" \
-            .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
+        print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%"\
+              .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
 
-        max_of_three = max([health_percentage, crisis_percentage, exception_percentage])
+        max_of_three = max([health_percentage, crisis_percentage, exception_percentage ])
 
         if max_of_three == exception_percentage:
             return ('Not enought data')
 
         elif max_of_three == crisis_percentage:
-            print('World in crisis !\n')
-            return region_dic, unknown_countries
+            return ('World in crisis', region_dic, unknown_countries)
 
         elif max_of_three == health_percentage:
-            print('World is in good shape !\n')
-            return region_dic, unknown_countries
+            return ('World is good', region_dic, unknown_countries)
 
     def min_gdp(self, listOfCountries, years):
         '''
@@ -276,7 +276,6 @@ class Analyse:
         session.close()
         return max(list(list_of_code.values())), list_of_code
 
-
     def min_growth(self, listOfCountries, years):
         '''
          Returns the minimum growth of each countries of listOfCountries for the given period years, and the global minimum
@@ -322,7 +321,7 @@ class Analyse:
                 list_of_code[elt[0]] = 0
         session.close()
         return max(list(list_of_code.values())), list_of_code
-
+    
         
     def av_gdp_growth_prod(self, countries_list, years_list, production_type):
         '''
