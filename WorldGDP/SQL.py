@@ -368,12 +368,12 @@ class Analyse:
         result_list = {}
         for country in countries_list:
 
-            growth.append(list(self.av_growth([country], years_list).values())[0])
-            gdp.append(list(self.av_gdp([country], years_list).values())[0])
+            growth.append(list(self.average_growth([country], years_list).values())[0])
+            gdp.append(list(self.average_gdp([country], years_list).values())[0])
             prod.append(list(f.average_production([country], years_list, production_type, "Food").values())[0])
 
 
-            result_list[country] = ["average growth: "+str(list(self.av_growth([country], years_list).values())[0]),"average gdp: "+str(list(self.av_gdp([country], years_list).values())[0]), "average production: "+ str(list(f.average_production([country], years_list, production_type, "Food").values())[0])]
+            result_list[country] = ["average growth: "+str(list(self.average_growth([country], years_list).values())[0]),"average gdp: "+str(list(self.average_gdp([country], years_list).values())[0]), "average production: "+ str(list(f.average_production([country], years_list, production_type, "Food").values())[0])]
 
         return result_list
         print(prod)
