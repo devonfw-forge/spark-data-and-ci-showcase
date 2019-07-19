@@ -15,67 +15,75 @@ class WorldBank:
         self.dataHead = self.dataBase[4]
         self.dataBase = self.dataBase[5:]
 
-    def countries(self):
+    def list_countries(self):
         '''
         Returns the list of all the countries
+        :return: country_list
         '''
         country_list = []
         for country in self.dataBase:
             country_list.append(country[0])
         return country_list
 
-    def population(self, country, list_years):
+    def list_population(self, country, years):
         '''
         Returns, for a country and a period given, the list of the population
+        :param country:
+        :param years:
+        :return: population_list
         '''
-        years = [str(x) for x in list_years]
+        years_list_str = [str(x) for x in years]
 
         for current_country in self.dataBase:
             if current_country[0] == country:
-                pop = current_country[self.dataHead.index(years[0]): self.dataHead.index(years[1]) + 1]
+                population_list = current_country[self.dataHead.index(years_list_str[0]): self.dataHead.index(years_list_str[1]) + 1]
 
-        for elt in pop:
+        for elt in population_list:
             if elt == "":
-                pop[pop.index(elt)] = '0'
-            pop[pop.index(elt)] = int(pop[pop.index(elt)])
-        return pop
+                population_list[population_list.index(elt)] = '0'
+            population_list[population_list.index(elt)] = int(population_list[population_list.index(elt)])
+        return population_list
 
-    def countries_pop(self, countries, list_years):
+    def countries_population(self, countries, years):
         '''
-        Returns, for a list of countries and a period given, the list of the population for each country
+        Returns, for a list of countries and a period given, the list of the population of each country
+        :param countries:
+        :param years:
+        :return:population_dic
         '''
-        final_list = {}
-        years = [str(x) for x in list_years]
+        population_dic = {}
+        years_list_str = [str(x) for x in years]
         for country in countries:
-            final_list[country] = self.population(country, years)
-        return final_list
+            population_dic[country] = self.list_population(country, years_list_str)
+        return population_dic
 
-    def growth(self, listOfCountries, list_years):
+    def growth(self, listOfCountries, years):
         '''
-        returns, for a given list of countries and year range, the list of the growth for each country
+        Returns a dictionary with the growth of each country given in a fixed period
+        :param listOfCountries:
+        :param years:
+        :return: growth_dic
         '''
-        
         indiceMin = 0
         indiceMax = 0
-        result = {}
-        years = [str(x) for x in years_l]
+        growth_dic = {}
+        years_list_str = [str(x) for x in years]
         for country in self.dataBase:
 
             if country[0] in listOfCountries:
                 for i in range(len(self.dataHead)):
-                    if years[0] == self.dataHead[i]:
+                    if years_list_str[0] == self.dataHead[i]:
                         indiceMin = i
-                    if years[1] == self.dataHead[i]:
+                    if years_list_str[1] == self.dataHead[i]:
                         indiceMax = i
 
                 minimum = country[indiceMin]
                 maximum = country[indiceMax]
 
-
                 difference = int(maximum) - int(minimum)
-                result[country[0]] = difference
+                growth_dic[country[0]] = difference
 
-        return result
+        return growth_dic
 
     def indexYear(self, years_l):
         years = [str(x) for x in years_l]
@@ -88,7 +96,7 @@ class WorldBank:
     def indexCountries(self, country_list):
         indexes = []
         for i in country_list:
-            indexes.append(self.countries().index(i))
+            indexes.append(self.list_countries().index(i))
         return indexes
 
     def minPoblacion(self, country_list, years_l):
