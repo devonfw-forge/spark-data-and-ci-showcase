@@ -391,7 +391,7 @@ class Analyse:
             if prod[i] == None:
                 prod[i] = 0
 
-        for i in range(0, 2 * len(countries_list), 2):
+        for i in range(0, len(countries_list), 2):
             diff_growth.append(growth[i + 1] - growth[i])
             diff_gdp.append(gdp[i + 1] - gdp[i])
             diff_prod.append(prod[i + 1] - prod[i])
