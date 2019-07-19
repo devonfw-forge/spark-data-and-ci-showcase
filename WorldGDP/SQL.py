@@ -361,49 +361,61 @@ class Analyse:
         gdp = []
         growth = []
         prod = []
-        diff_growth =[]
+        diff_growth = []
         diff_gdp = []
         diff_prod = []
         f = Fao()
         diff = []
 
         for country in countries_list:
+
+
             for fao_country in f.list_countries():
+
                 if self.similar(country, fao_country) == 1:
 
-                    growth.append(list(self.av_growth([country], year_range_1).values())[0])
-                    gdp.append(list(self.av_gdp([country], year_range_1).values())[0])
+                    growth.append(list(self.average_growth([country], year_range_1).values())[0])
+                    gdp.append(list(self.average_gdp([country], year_range_1).values())[0])
                     prod.append(list(f.average_production([country], year_range_1, production_type, "Food").values())[0])
 
-                    growth.append(list(self.av_growth([country], year_range_2).values())[0])
-                    gdp.append(list(self.av_gdp([country], year_range_2).values())[0])
-                    prod.append(list(f.average_production([country], year_range_2, production_type, "Food").values())[0])
+                    growth.append(list(self.average_growth([country], year_range_2).values())[0])
+                    gdp.append(list(self.average_gdp([country], year_range_2).values())[0])
+                    prod.append(
+                        list(f.average_production([country], year_range_2, production_type, "Food").values())[0])
                     break
+        for i in range (len(growth)):
+            if growth[i] == None:
+                growth[i] = 0
+            if gdp[i] == None:
+                gdp[i] = 0
+            if prod[i] == None:
+                prod[i] = 0
 
-        for i in range(0,2*len(countries_list),2):
-                diff_growth.append(growth[i + 1] - growth[i])
-                diff_gdp.append(gdp[i + 1] - gdp[i])
-                diff_prod.append(prod[i + 1] - prod[i])
+        for i in range(0, 2 * len(countries_list), 2):
+            diff_growth.append(growth[i + 1] - growth[i])
+            diff_gdp.append(gdp[i + 1] - gdp[i])
+            diff_prod.append(prod[i + 1] - prod[i])
 
         for i in range(len(diff_prod)):
-            diff+=[str(countries_list[i])+": 'growth difference' : "+str(diff_growth[i]) + ": 'gdp difference' : "+str(diff_gdp[i]) +", production difference : "+str(diff_prod[i])]
+            diff += [str(countries_list[i]) + ": 'growth difference' : " + str(
+                diff_growth[i]) + ": 'gdp difference' : " + str(diff_gdp[i]) + ", production difference : " + str(
+                diff_prod[i])]
         return diff
 
         session.close()
 
-A= Analyse()
+
+A = Analyse()
 f = Fao()
 
+# print(A.conclusion_gdp_growth_prod(liste,year_range_1, year_range_2, f.country_products(liste)))
 
 
+L = ['Afghanistan', 'Albania', 'Algeria']
 
-#print(A.conclusion_gdp_growth_prod(liste,year_range_1, year_range_2, f.country_products(liste)))
+# print(L)
 
+# print(A.av_gdp_growth_prod(L,[1985,1989], f.country_products(L)))
+# print(A.av_gdp_growth_prod(L,[1990,1992], f.country_products(L)))
+print(A.conclusion_gdp_growth_prod(L, [1985, 1989], [1990, 1992], f.country_products(L)))
 
-L= ['Afghanistan', 'Albania', 'Algeria', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Cabo Verde', 'Cambodia', 'Cameroon', 'Canada', 'Central African Republic', 'Chad', 'Chile', 'Colombia', 'Costa Rica']
-
-#print(L)
-
-#print(A.av_gdp_growth_prod(L,[1985,1989], f.country_products(L)))
-#print(A.av_gdp_growth_prod(L,[1990,1992], f.country_products(L)))
-print(A.conclusion_gdp_growth_prod(L,[1985,1989], [1990,1992], f.country_products(L)))
