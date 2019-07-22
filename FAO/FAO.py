@@ -227,19 +227,18 @@ class Fao:
         for country in country_list:
             result_list = []
             for element in self.dataBase:
-                if element["Area"] == country and element["Item"] in self.list_products_country(country) and element["Element"] == 'Food':
+                if element["Area"] == country and element["Item"] == production_type and element["Element"] == 'Food':
 
                     for i in years_list:
                         if element[i] == "":
                             element[i] = 0
                         result_list.append(element[i])
-                
 
             av_dic[country] = statistics.mean(result_list)
 
         return av_dic
-    
-        def average_production(self, country_list, years_range, production_type):
+
+    def average_production(self, country_list, years_range, production_type):
         '''
         Returns the average of production  for some given countries, a fixed date and a production type given
         :param country_list:
@@ -257,7 +256,7 @@ class Fao:
         for country in country_list:
             result_list = []
             for element in self.dataBase:
-                if element["Area"] == country and element["Item"] == production_type and element["Element"] == 'Food':
+                if element["Area"] == country and element["Item"] in self.list_products_country(country) and element["Element"] == 'Food':
 
                     for i in years_list:
                         if element[i] == "":
