@@ -44,7 +44,7 @@ class Fao:
         '''
         products_list = []
         for element in self.dataBase:
-            if element["Area"] == country and element["Item"] not in products_list:
+            if element["Area"] == country and element["Element"] == 'Food' and element["Item"] not in products_list:
                 products_list.append(element["Item"])
         return products_list
 
@@ -233,14 +233,9 @@ class Fao:
                         if element[i] == "":
                             element[i] = 0
                         result_list.append(element[i])
-                else:
-                    result_list.append(0)
 
             av_dic[country] = statistics.mean(result_list)
 
         return av_dic
-
-
-
 
 
