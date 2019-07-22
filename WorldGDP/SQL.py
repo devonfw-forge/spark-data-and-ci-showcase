@@ -218,8 +218,6 @@ class Analyse:
                 else:
                     health += 1
 
-        production_conclusion = self.production_growth(countries_crisis[:5], years)
-        print(production_conclusion)
 
         list_countries_len = len(self.list_countries())
         health_percentage = (health / list_countries_len)*100
@@ -228,6 +226,11 @@ class Analyse:
 
         print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%"\
               .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
+        
+        
+        production_conclusion = self.production_growth(countries_crisis[:5], years)
+        print(production_conclusion)
+
 
         max_of_three = max([health_percentage, crisis_percentage, exception_percentage ])
 
@@ -437,7 +440,7 @@ class Analyse:
 
 A = Analyse()
 f = Fao()
-
+print(A.world_health([1990, 1992]))
 L = ['Afghanistan', 'Albania', 'Algeria']
 
 print(A.conclusion_gdp_growth_prod(L, [1985, 1989], [1990, 1992], f.list_products_countries(L)))
