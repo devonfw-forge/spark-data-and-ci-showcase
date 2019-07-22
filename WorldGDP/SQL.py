@@ -351,8 +351,8 @@ class Analyse:
 
         conclusion = {'last 5 years production' : 0, 'period production' : 0}
         for prod in list(production_dic.keys()):
-            conclusion['last 5 years growth'] += production_dic[prod][1]
-            conclusion['period growth'] += production_dic[prod][0]
+            conclusion['last 5 years production'] += production_dic[prod][1]
+            conclusion['period production'] += production_dic[prod][0]
 
         return conclusion
 
