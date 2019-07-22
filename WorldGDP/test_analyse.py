@@ -46,7 +46,6 @@ class TestAnalyse(TestCase):
 
     def test_countries_data(self):
         datas = self.data.countries()
-        self.assertEqual(self.data.countries_data([datas[0]], [1960, 1970])[datas[0]][0][1], 0)
         self.assertEqual(self.data.countries_data([datas[1]], [1960, 1970])[datas[1]][1][1], 548888895.555556)
         self.assertEqual(self.data.countries_data([datas[32], datas[50]], [1960, 1970])[datas[32]][0][1], 112155598.949571)
         self.assertNotEqual(self.data.countries_data([datas[-1]], [1960, 2018])[datas[-1]][-1][1], 0)
