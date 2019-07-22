@@ -431,18 +431,13 @@ class Analyse:
 
         session.close()
 
+L = ['France', 'Brazil', 'Angola', 'Spain', 'Algeria', 'Madagascar', 'Mali', 'Argentina']
+a = ['Brazil', 'Angola', 'Algeria', 'Madagascar', 'Argentina']
 
 A = Analyse()
 f = Fao()
 
 print(A.world_health([1990, 1992]))
 
-L = ['France', 'Brazil', 'Angola', 'Spain', 'Algeria', 'Madagascar', 'Mali', 'Argentina']
-
 print(A.conclusion_gdp_growth_prod(L, [1976, 1980], [1981, 1983], f.list_products_countries(L)))
-
-
-a = ['Brazil', 'Angola', 'Algeria', 'Madagascar', 'Argentina']
-x= A.conclusion_gdp_growth_prod(a, [2000, 2001], [2003, 2006], f.list_products_countries(a))
-
-print(x)
+print(A.conclusion_gdp_growth_prod(a, [2000, 2001], [2003, 2006], f.list_products_countries(a)))
