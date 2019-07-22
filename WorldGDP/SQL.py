@@ -445,3 +445,4 @@ print(A.conclusion_gdp_growth_prod(L, [1976, 1980], [1981, 1983], f.list_product
 a = ['Brazil', 'Angola', 'Algeria', 'Madagascar', 'Argentina']
 x= A.conclusion_gdp_growth_prod(a, [2000, 2001], [2003, 2006], f.list_products_countries(a))
 
+print(x)
