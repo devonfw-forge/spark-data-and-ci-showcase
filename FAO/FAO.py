@@ -238,7 +238,7 @@ class Fao:
 
         return av_dic
 
-    def average_production(self, country_list, years_range, production_type):
+    def average_production(self, country_list, years_range):
         '''
         Returns the average of production  for some given countries, a fixed date and a production type given
         :param country_list:
