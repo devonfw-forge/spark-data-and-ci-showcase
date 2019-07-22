@@ -435,6 +435,8 @@ class Analyse:
 A = Analyse()
 f = Fao()
 
+print(A.world_health([1990, 1992]))
+
 L = ['France', 'Brazil', 'Angola', 'Spain', 'Algeria', 'Madagascar', 'Mali', 'Argentina']
 
 print(A.conclusion_gdp_growth_prod(L, [1976, 1980], [1981, 1983], f.list_products_countries(L)))
