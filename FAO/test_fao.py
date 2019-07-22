@@ -29,7 +29,6 @@ class TestFao(TestCase):
 
     def test_average_production(self):
         countries = self.data.list_countries()
-        self.assertEqual(self.data.average_production([countries[0], countries[42]], [1961, 1965], "Wheat and products","Food"),
-                         {countries[0] : 1889.8, countries[42] : 67.4})
+        self.assertEqual(self.data.average_production([countries[0], countries[42]], [1961, 1965], "Wheat and products"), {countries[0]: 1889.8, countries[42]: 67.4})
 
 
