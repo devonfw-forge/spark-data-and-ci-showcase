@@ -209,7 +209,7 @@ class Fao:
 
         return country_dic
 
-    def average_production(self, country_list, years_range, production_type):
+    def average_production2(self, country_list, years_range, production_type):
         '''
         Returns the average of production  for some given countries, a fixed date and a production type given
         :param country_list:
@@ -234,6 +234,35 @@ class Fao:
                             element[i] = 0
                         result_list.append(element[i])
                 
+
+            av_dic[country] = statistics.mean(result_list)
+
+        return av_dic
+    
+        def average_production(self, country_list, years_range, production_type):
+        '''
+        Returns the average of production  for some given countries, a fixed date and a production type given
+        :param country_list:
+        :param years_range:
+        :param production_type:
+        :param direction:
+        :return: av_dic
+        '''
+        av_dic = {}
+        years_list = []
+
+        for date in range(years_range[0], years_range[-1] + 1):
+            years_list.append("Y" + str(date))
+
+        for country in country_list:
+            result_list = []
+            for element in self.dataBase:
+                if element["Area"] == country and element["Item"] == production_type and element["Element"] == 'Food':
+
+                    for i in years_list:
+                        if element[i] == "":
+                            element[i] = 0
+                        result_list.append(element[i])
 
             av_dic[country] = statistics.mean(result_list)
 
