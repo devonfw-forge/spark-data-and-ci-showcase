@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from SQL import Analyse
-
+from FAO import Fao
 
 class TestAnalyse(TestCase):
 
@@ -84,5 +84,11 @@ class TestAnalyse(TestCase):
 
         self.assertNotEqual(self.data.av_gdp([datas[149], datas[188], datas[204]], [2001, 2006]),
                             {datas[149]: 48861984.861827, datas[188]: 2521170662.67905, datas[204]: 215728296.915783})
-
+        
+    def test_avg_gdp_growth_prod(self):
+        datas = self.data.list_countries()
+        a = [datas[15]]
+        f = Fao()
+        self.assertEqual(self.data.conclusion_gdp_growth_prod(a, [2000, 2001], [2003, 2006], f.list_products_countries(a))[datas[15]], "'average growth difference' : 0.029821664308110396, 'average "
+            "production difference' : 1.9516826562373795")
 
