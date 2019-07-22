@@ -5,8 +5,8 @@ import csv
 from difflib import SequenceMatcher
 from FAO import Fao
 
-
 Base = declarative_base()
+
 
 class Gdp(Base):
     '''
@@ -37,6 +37,7 @@ class Analyse:
     '''
    Class with all the data analyse functions.
    '''
+
     def __init__(self):
         self.F = Fao()
 
@@ -130,8 +131,9 @@ class Analyse:
         countries_data_dic = {}
         years_vect = [x for x in range(years[0], years[1] + 1)]
         for country in countries:
-            countries_data_dic[country] = list(session.query(Gdp.Year, Gdp.gdp, Gdp.growth)\
-                .filter_by(CountryCode=self.name_to_code(country)).filter(Gdp.gdp != '').filter(Gdp.Year.in_(years_vect)).all())
+            countries_data_dic[country] = list(session.query(Gdp.Year, Gdp.gdp, Gdp.growth) \
+                                               .filter_by(CountryCode=self.name_to_code(country)).filter(
+                Gdp.gdp != '').filter(Gdp.Year.in_(years_vect)).all())
             for i, elt in enumerate(countries_data_dic[country]):
                 countries_data_dic[country][i] = list(countries_data_dic[country][i])
 
@@ -153,7 +155,7 @@ class Analyse:
         for country in countries:
             CC = self.name_to_code(country)
             years_vec = [x for x in range(years[0], years[1] + 1)]
-            av_dic[country] = session.query(func.avg(Gdp.gdp))\
+            av_dic[country] = session.query(func.avg(Gdp.gdp)) \
                 .filter_by(CountryCode=CC).filter(Gdp.gdp != '').filter(Gdp.Year.in_(years_vec)).first()[0]
         session.close()
         return av_dic
@@ -178,7 +180,7 @@ class Analyse:
         session.close()
         return av_dic
 
-     def world_health(self, years):
+    def world_health(self, years):
         '''
         Returns the world health and the geographic place of the countries in crisis
         :param years:
@@ -192,12 +194,12 @@ class Analyse:
 
         dic = self.geo_zone()
         dic_keys = list(dic.keys())
-        region_dic ={'Asia & Pacific':0 ,'Europe':0 , 'Arab States':0 , 'Africa':0 , \
-                      'South/Latin America':0 , 'Unknown':0, 'North America':0}
+        region_dic = {'Asia & Pacific': 0, 'Europe': 0, 'Arab States': 0, 'Africa': 0, \
+                      'South/Latin America': 0, 'Unknown': 0, 'North America': 0}
 
         for country in self.list_countries():
 
-            past_gdp = self.average_growth([country], [years[0]-5, years[0]-1])[country]
+            past_gdp = self.average_growth([country], [years[0] - 5, years[0] - 1])[country]
             now_gdp = self.average_growth([country], years)[country]
 
             if past_gdp == None or now_gdp == None:
@@ -211,7 +213,7 @@ class Analyse:
                     for elt in dic_keys:
                         if self.similar(elt, country) > 0.7:
                             region = dic[elt]
-                            #print(country,region)
+                            # print(country,region)
                             region_dic[region] += 1
                             break
 
@@ -220,20 +222,23 @@ class Analyse:
 
         production_conclusion = self.production_growth(countries_crisis[:5], years)
         print('*********************************************************\n')
-        print(production_conclusion)
+
 
         list_countries_len = len(self.list_countries())
-        health_percentage = (health / list_countries_len)*100
-        crisis_percentage = (crisis / list_countries_len)*100
-        exception_percentage = (exception / list_countries_len)*100
+        health_percentage = (health / list_countries_len) * 100
+        crisis_percentage = (crisis / list_countries_len) * 100
+        exception_percentage = (exception / list_countries_len) * 100
 
         print(
             '\nFor the year {} to {} :\n'.format(years[0], years[1]))
 
-        print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%\n"\
-              .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
+        print(
+            "Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%\n" \
+            .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
 
-        max_of_three = max([health_percentage, crisis_percentage, exception_percentage ])
+        print(production_conclusion)
+
+        max_of_three = max([health_percentage, crisis_percentage, exception_percentage])
 
         if max_of_three == exception_percentage:
             return ('Not enought data')
@@ -262,7 +267,7 @@ class Analyse:
             name = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
             list_of_code[country] = \
-            session.query(func.min(Gdp.gdp)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
+                session.query(func.min(Gdp.gdp)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
@@ -285,7 +290,7 @@ class Analyse:
             name = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
             list_of_code[country] = \
-            session.query(func.max(Gdp.gdp)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
+                session.query(func.max(Gdp.gdp)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
@@ -308,7 +313,8 @@ class Analyse:
             name = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
             list_of_code[country] = \
-            session.query(func.min(Gdp.growth)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
+                session.query(func.min(Gdp.growth)).filter_by(CountryCode=name).filter(
+                    Gdp.Year.in_(years_vect)).first()[0]
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
@@ -331,7 +337,8 @@ class Analyse:
             name = self.name_to_code(country)
             years_vect = [x for x in range(years[0], years[1] + 1)]
             list_of_code[country] = \
-            session.query(func.max(Gdp.growth)).filter_by(CountryCode=name).filter(Gdp.Year.in_(years_vect)).first()[0]
+                session.query(func.max(Gdp.growth)).filter_by(CountryCode=name).filter(
+                    Gdp.Year.in_(years_vect)).first()[0]
         for elt in list(list_of_code.items()):
             if elt[1] == '':
                 list_of_code[elt[0]] = 0
@@ -345,19 +352,17 @@ class Analyse:
 
         for country in country_list:
             for prod in self.F.list_products_country(country):
+                production_dic[prod][0] += self.F.average_production2([country], years, prod)[country]
+                production_dic[prod][1] += self.F.average_production2([country], [years[0] - 5, years[0] - 1], prod)[
+                    country]
 
-                production_dic[prod][0] += self.F.average_production([country], years, prod)[country]
-                production_dic[prod][1] += self.F.average_production([country], [years[0]-5, years[0]-1], prod)[country]
-
-        conclusion = {'last 5 years production' : 0, 'period production' : 0}
+        conclusion = {'last 5 years production': 0, 'period production': 0}
         for prod in list(production_dic.keys()):
             conclusion['last 5 years production'] += production_dic[prod][1]
             conclusion['period production'] += production_dic[prod][0]
 
         return conclusion
 
-    
-        
     def av_gdp_growth_prod(self, countries_list, years_list, production_type):
         '''
         Returns a list with the countries and their average gdp, growth and production in years_list
@@ -373,18 +378,20 @@ class Analyse:
         f = Fao()
         result_list = {}
         for country in countries_list:
-
             growth.append(list(self.average_growth([country], years_list).values())[0])
             gdp.append(list(self.average_gdp([country], years_list).values())[0])
             prod.append(list(f.average_production([country], years_list, production_type, "Food").values())[0])
 
-
-            result_list[country] = ["average growth: "+str(list(self.average_growth([country], years_list).values())[0]),"average gdp: "+str(list(self.average_gdp([country], years_list).values())[0]), "average production: "+ str(list(f.average_production([country], years_list, production_type, "Food").values())[0])]
+            result_list[country] = [
+                "average growth: " + str(list(self.average_growth([country], years_list).values())[0]),
+                "average gdp: " + str(list(self.average_gdp([country], years_list).values())[0]),
+                "average production: " + str(
+                    list(f.average_production([country], years_list, production_type, "Food").values())[0])]
 
         return result_list
         print(prod)
         session.close()
-        
+
     def conclusion_gdp_growth_prod(self, countries_list, year_range_1, year_range_2, production_type):
         '''
         Returns a list with the countries and their average gdp, growth and production in years_list
@@ -401,7 +408,7 @@ class Analyse:
         diff_gdp = []
         diff_prod = []
         f = Fao()
-        diff={}
+        diff = {}
 
         for country in countries_list:
 
@@ -427,7 +434,7 @@ class Analyse:
             diff_prod.append(prod[i + 1] - prod[i])
 
         for i in range(len(diff_prod)):
-            diff [countries_list[i]]= "'average growth difference' : " + str(
+            diff[countries_list[i]] = "'average growth difference' : " + str(
                 diff_growth[i]) + ", 'average production difference' : " + str(
                 diff_prod[i])
         return diff
