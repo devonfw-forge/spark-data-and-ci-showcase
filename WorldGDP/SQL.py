@@ -178,7 +178,7 @@ class Analyse:
         session.close()
         return av_dic
 
-    def world_health(self, years):
+     def world_health(self, years):
         '''
         Returns the world health and the geographic place of the countries in crisis
         :param years:
@@ -218,19 +218,20 @@ class Analyse:
                 else:
                     health += 1
 
+        production_conclusion = self.production_growth(countries_crisis[:5], years)
+        print('*********************************************************\n')
+        print(production_conclusion)
 
         list_countries_len = len(self.list_countries())
         health_percentage = (health / list_countries_len)*100
         crisis_percentage = (crisis / list_countries_len)*100
         exception_percentage = (exception / list_countries_len)*100
 
-        print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%"\
-              .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
-        
-        
-        production_conclusion = self.production_growth(countries_crisis[:5], years)
-        print(production_conclusion)
+        print(
+            '\nFor the year {} to {} :\n'.format(years[0], years[1]))
 
+        print("Percentage of healthy countries : {}% \nPercentage of countries in crisis : {}% \nPercentage of not enougth data : {}%\n"\
+              .format(round(health_percentage), round(crisis_percentage), round(exception_percentage)))
 
         max_of_three = max([health_percentage, crisis_percentage, exception_percentage ])
 
@@ -238,10 +239,12 @@ class Analyse:
             return ('Not enought data')
 
         elif max_of_three == crisis_percentage:
-            return ('World in crisis', region_dic, unknown_countries)
+            print('World in crisis !\n')
+            return region_dic, unknown_countries
 
         elif max_of_three == health_percentage:
-            return ('World is good', region_dic, unknown_countries)
+            print('World is in good shape !\n')
+            return region_dic, unknown_countries
 
     def min_gdp(self, listOfCountries, years):
         '''
