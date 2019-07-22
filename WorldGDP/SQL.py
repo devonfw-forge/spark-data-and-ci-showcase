@@ -349,7 +349,7 @@ class Analyse:
                 production_dic[prod][0] += self.F.average_production([country], years, prod)[country]
                 production_dic[prod][1] += self.F.average_production([country], [years[0]-5, years[0]-1], prod)[country]
 
-        conclusion = {'last 5 years growth' : 0, 'period growth' : 0}
+        conclusion = {'last 5 years production' : 0, 'period production' : 0}
         for prod in list(production_dic.keys()):
             conclusion['last 5 years growth'] += production_dic[prod][1]
             conclusion['period growth'] += production_dic[prod][0]
@@ -440,7 +440,7 @@ a = ['Brazil', 'Angola', 'Algeria', 'Madagascar', 'Argentina']
 A = Analyse()
 f = Fao()
 
-print(A.world_health([1990, 1992]))
+print(A.world_health([1981, 1983]))
 
 print(A.conclusion_gdp_growth_prod(L, [1976, 1980], [1981, 1983], f.list_products_countries(L)))
 print(A.conclusion_gdp_growth_prod(a, [2000, 2001], [2003, 2006], f.list_products_countries(a)))
