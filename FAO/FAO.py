@@ -267,4 +267,18 @@ class Fao:
 
         return av_dic
 
+     def yearly_production(self, year):
+
+        dict = {}
+        prod = 0
+        for element in self.dataBase:
+            if element["Element"] == "Food":
+                val = element["Y" + str(year)]
+                if val != "":
+                    prod = prod + val
+
+        dict[year] = prod
+
+        return dict
+    
 
