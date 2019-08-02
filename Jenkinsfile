@@ -6,7 +6,7 @@ pipeline{
         stage('test'){
             steps{
                 script {
-                    bat "docker exec -it 15e9343d9b88 /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/test_FAO_spark.py"
+                    bat "winpty docker exec -it 15e9343d9b88 /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/test_FAO_spark.py"
                 }
         }
     }
