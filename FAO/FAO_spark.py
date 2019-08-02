@@ -6,12 +6,17 @@ import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
 
+datapth = "FAO/FAO+database.json"
+
 class Spark():
     
-    def __init__(self,context):
-        sc = context
+    def __init__(self,datapth):
+
+        sc = SparkContext("local", "First App")
         sqlCtx = SQLContext(sc)
-        self.df = sqlCtx.read.json("FAOdatabase.json",  multiLine=True)
+        data = sqlCtx.read.json(datapth, multiLine=True)
+
+        self.df = data
         self.sparksession = SparkSession.builder.getOrCreate()
         
     def list_countries(self):
