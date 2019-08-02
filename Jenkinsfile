@@ -7,7 +7,7 @@ pipeline{
             steps{
                 script {
                     withPythonEnv('python'){
-                        bat "python test_spark_analyse.ipynb"
+                        bat "python FAO/test_FAO_spark.py"
                     
                     }
                 
