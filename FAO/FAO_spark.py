@@ -24,6 +24,7 @@ class Spark():
         Returns all countries list.
         :return: list
         '''
+        test = []
         return self.df.rdd.map(lambda line: line[0]).distinct().collect()
     
     def countries_productions(self):
