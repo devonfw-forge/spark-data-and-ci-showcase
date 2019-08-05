@@ -20,6 +20,10 @@ class Spark():
         self.sparksession = SparkSession.builder.getOrCreate()
         
     def list_countries(self):
+        '''
+        Returns all countries list.
+        :return: list
+        '''
         return self.df.rdd.map(lambda line: line[0]).distinct().collect()
     
     def countries_productions(self):
