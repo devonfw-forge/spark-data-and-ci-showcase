@@ -12,7 +12,7 @@ class Test_FAO_spark(unittest.TestCase):
         self.S = Spark("test/FAO/FAO+database.json")
         
     def test_list_countries(self):
-        self.assertEqual(len(self.S.list_countries()), 174)
+        self.assertEqual(len(self.S.list_countries()), 175)
 
 
 unittest.main(argv=[''], verbosity=2, exit=False)
