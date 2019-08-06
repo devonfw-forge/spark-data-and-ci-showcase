@@ -17,7 +17,7 @@ import pandas as pd
 
 datapath = "WorldGDP/world-gdp.db"
 
-class Spark_SQLite():
+class Spark_GDP():
 
     def __init__(self, datapath):
         self.spark = SparkSession.builder.appName("SQLite demo").getOrCreate()
