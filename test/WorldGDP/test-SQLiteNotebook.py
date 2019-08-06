@@ -7,7 +7,7 @@
 import unittest
 import sys
 from pyspark import SparkContext
-from SQLiteNotebook import Spark_SQLite
+
 
 sys.path.append("WorldGDP")
 from SQLiteNotebook import Spark_SQLite
@@ -19,7 +19,7 @@ from SQLiteNotebook import Spark_SQLite
 class TestSQLiteNotebook(unittest.TestCase):
     
     def setUp(self):
-        self.S = Spark_SQLite("test/world-gdp.db")
+        self.S = Spark_SQLite("test/WorldGDP/world-gdp.db")
         
     def test_list_countries(self):
         pandaDF = self.S.createGDPPandaDF()

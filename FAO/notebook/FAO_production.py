@@ -1,20 +1,11 @@
-from pyspark import SparkContext
-from pyspark import SQLContext
 from operator import add
 from pyspark.sql import SparkSession
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
-
-datapth = "FAO/FAO+database.json"
-
-class Spark():
+class FAO_production():
     
-    def __init__(self,datapth):
-
-        sc = SparkContext("local", "First App")
-        sqlCtx = SQLContext(sc)
-        data = sqlCtx.read.json(datapth, multiLine=True)
+    def __init__(self,data):
 
         self.df = data
         self.sparksession = SparkSession.builder.getOrCreate()
