@@ -53,7 +53,7 @@ class FAO_production():
             .read \
             .format('csv') \
             .options(header='true', inferSchema='true', delimiter=';') \
-            .load('./Book1.csv')
+            .load('../data2/Book1.csv')
 
         return self.df.join(df_geo, self.df.Area == df_geo.Country)
     
