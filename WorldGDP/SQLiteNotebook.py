@@ -9,7 +9,7 @@ pd.set_option('display.max_rows', 600)
 
 class Spark_GDP(): 
 
-    def __init__(self, sparkSession, sqlitedata):
+    def __init__(self, sqlitedata, sparkSession):
         self.spark = sparkSession
         self.conn = sqlitedata
         self.queryGDP = 'SELECT * from gdp'

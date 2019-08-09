@@ -5,10 +5,10 @@ import plotly.graph_objects as go
 
 class FAO_production():
     
-    def __init__(self,data):
+    def __init__(self,data, spark):
 
         self.df = data
-        self.sparksession = SparkSession.builder.getOrCreate()
+        self.sparksession = spark
         
     def list_countries(self):
         '''

@@ -5,17 +5,9 @@ import pandas as pd
 
 class Employment():
 
-    def __init__(self):
-        self.spark = SparkSession \
-            .builder \
-            .appName("Employment App") \
-            .getOrCreate()
-        
-        self.df_unemployment = self.spark \
-            .read \
-            .format('csv') \
-            .options(header='true', inferSchema='true', delimiter=';') \
-            .load('../data2/Book2.csv')
+    def __init__(self, data, sparkSession):
+        self.spark = sparkSession         
+        self.df_unemployment = data
         
     def extract_info(self, years_frame, countries_list ):
         years = [str(year) for year in range(years_frame[0],years_frame[-1]+1)]
