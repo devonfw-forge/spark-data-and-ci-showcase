@@ -29,10 +29,14 @@ pipeline{
         }
         stage('test results analyse'){
             steps{
-                if (test1.log.contains('FAIL')){
-                    currentBuild.result = 'FAILURE'}
-                if (test2.log.contains('FAIL')) {
-                    currentBuild.result = 'FAILURE'}
+                script {
+                    if (test1.log.contains('FAIL')){
+                        currentBuild.result = 'FAILURE'
+                    }
+                    if (test2.log.contains('FAIL')) {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
 		    }
 		}
         stage('Destroy container'){
