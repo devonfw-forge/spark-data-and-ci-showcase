@@ -31,10 +31,14 @@ pipeline{
             steps{
                 script {
                     if (test1.log.contains('FAIL')){
-                        currentBuild.result = 'FAILURE'
+                        stage('Test1'){
+                            currentBuild.result = 'FAILURE'
+                        }
                     }
                     if (test2.log.contains('FAIL')) {
-                        currentBuild.result = 'FAILURE'
+                        stage('Test2'){
+                            currentBuild.result = 'FAILURE'
+                        }
                     }
                 }
 		    }
