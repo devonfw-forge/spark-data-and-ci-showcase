@@ -14,6 +14,7 @@ pipeline{
 	        steps{
                 script {
                     bat "docker cp FAO/ JupyterContainer:/home/jovyan/"
+                    bat "docker cp WorldGDP/ JupyterContainer:/home/jovyan/"
 		            bat "docker cp test/ JupyterContainer:/home/jovyan/"
                 }
             }
