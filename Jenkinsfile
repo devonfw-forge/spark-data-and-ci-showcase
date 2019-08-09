@@ -4,7 +4,8 @@ pipeline{
         stage('Create docker contaimer'){
             steps{
                 script {
-		            bat "docker run -i --name JupyterContainer -p 8887:8888 jupyter/pyspark-notebook"
+		            bat "docker run -i --name JupyterContainer -d -p 8887:8888 jupyter/pyspark-notebook"
+		            sleep(3000)
 		            bat "docker exec -i JupyterContainer pip install plotly"
                 }
             }
