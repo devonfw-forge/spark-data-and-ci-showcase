@@ -29,8 +29,8 @@ pipeline{
         }
         stage('test results analyse'){
 
-            if test1.log.contains('FAIL') currentBuild.result = 'FAILURE'
-            if test2.log.contains('FAIL') currentBuild.result = 'FAILURE'
+            if (test1.log.contains('FAIL')){ currentBuild.result = 'FAILURE'}
+            if (test2.log.contains('FAIL')) { currentBuild.result = 'FAILURE'}
 		}
         stage('Destroy container'){
             steps{
