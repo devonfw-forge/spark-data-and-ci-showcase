@@ -22,12 +22,27 @@ pipeline{
         stage('test'){
             steps{
                 script {
-                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/WorldGDP/test-SQLiteNotebook.py"
-                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/FAO/test_FAO_spark.py"
-
+                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/WorldGDP/test-SQLiteNotebook.py" > test1.log
+                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/FAO/test_FAO_spark.py" > test2.log
                 }
             }
         }
+        stage('test results analyse'){
+            steps{
+                script {
+                    if (test1.log.contains('FAIL')){
+                        stage('Test1'){
+                            currentBuild.result = 'FAILURE'
+                        }
+                    }
+                    if (test2.log.contains('FAIL')) {
+                        stage('Test2'){
+                            currentBuild.result = 'FAILURE'
+                        }
+                    }
+                }
+		    }
+		}
         stage('Destroy container'){
             steps{
                 script {
