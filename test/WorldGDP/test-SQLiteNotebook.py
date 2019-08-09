@@ -8,6 +8,7 @@ import unittest
 import sqlite3
 import sys
 from pyspark import SparkContext
+from pyspark.sql import SparkSession
 
 
 sys.path.append("WorldGDP")
