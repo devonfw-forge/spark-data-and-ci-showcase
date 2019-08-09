@@ -26,8 +26,8 @@ pipeline{
         stage('Destroy container'){
             steps{
                 script {
-		    bat"docker stop SparkContainer"
-		    bat"docker rm SparkContainer"
+		    bat "docker stop JupyterContainer"
+		    bat "docker rm JupyterContainer"
     		}
 	}
     
