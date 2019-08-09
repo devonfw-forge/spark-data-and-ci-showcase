@@ -1,7 +1,11 @@
 pipeline{
+
+    environment {
+        TEST_OUTPUT = ''
+    }
     agent any
-    stages{
-        stage('Create docker contaimer'){
+    stages {
+        stage('Create docker contaimer') {
             steps{
                 script {
 		            bat "docker run -i --name JupyterContainer -d -p 8887:8888 jupyter/pyspark-notebook"
@@ -10,7 +14,7 @@ pipeline{
                 }
             }
         }
-        stage('Copy git files to the container'){
+        stage('Copy git files to the container') {
 	        steps{
                 script {
                     bat "docker cp FAO/ JupyterContainer:/home/jovyan/"
@@ -19,31 +23,15 @@ pipeline{
                 }
             }
         }
-        stage('test'){
+        stage('test') {
             steps{
                 script {
-                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/WorldGDP/test-SQLiteNotebook.py" > test1.log
-                    bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/FAO/test_FAO_spark.py" > test2.log
+                    TEST_OUTPUT = bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/WorldGDP/test-SQLiteNotebook.py | grep 'FAIL'"
+                    TEST_OUTPUT = bat "docker exec -i JupyterContainer /usr/local/spark-2.4.3-bin-hadoop2.7/bin/spark-submit test/FAO/test_FAO_spark.py | grep 'FAIL'"
                 }
             }
         }
-        stage('test results analyse'){
-            steps{
-                script {
-                    if (test1.log.contains('FAIL')){
-                        stage('Test1'){
-                            currentBuild.result = 'FAILURE'
-                        }
-                    }
-                    if (test2.log.contains('FAIL')) {
-                        stage('Test2'){
-                            currentBuild.result = 'FAILURE'
-                        }
-                    }
-                }
-		    }
-		}
-        stage('Destroy container'){
+        stage('Destroy container') {
             steps{
                 script {
 		            bat "docker stop JupyterContainer"
@@ -52,5 +40,12 @@ pipeline{
 	        }
     
         }
+        stage('test results analyse') {
+            steps{
+                    if ($TEST_OUTPUT = 'FAIL')){
+                            currentBuild.result = 'FAILURE'
+                    }
+		    }
+		}
     }
 }
