@@ -5,21 +5,24 @@
 
 
 import unittest
+import sqlite3
 import sys
 from pyspark import SparkContext
 
 
 sys.path.append("WorldGDP")
-from SQLiteNotebook import Spark_SQLite
+from SQLiteNotebook import Spark_GDP
 
 
 # In[13]:
-
+datapath = "test/WorldGDP/world-gdp.db"
+sqlitedata = sqlite3.connect(datapath)
+spark = SparkSession.builder.appName("Crisis_analyse").getOrCreate()
 
 class TestSQLiteNotebook(unittest.TestCase):
     
     def setUp(self):
-        self.S = Spark_SQLite("test/WorldGDP/world-gdp.db")
+        self.S = Spark_GDP(sqlitedata, spark)
         
     def test_list_countries(self):
         pandaDF = self.S.createGDPPandaDF()
