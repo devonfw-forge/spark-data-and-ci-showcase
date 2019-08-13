@@ -40,7 +40,7 @@ pipeline{
             steps{
                 script {
                     output = powershell "(Select-String -pattern 'FAIL' out.log ).Count"
-                    if (output > 1){
+                    if (output > 0){
                         currentBuild.result = 'FAILURE'
                     }
                 }
