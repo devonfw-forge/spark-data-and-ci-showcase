@@ -39,8 +39,9 @@ pipeline{
         stage('test results analyse') {
             steps{
                 script {
-                    if ((Select-String -pattern "FAIL" .\out.log ).Count > 1){
-                            currentBuild.result = 'FAILURE'
+                    output = bat "(Select-String -pattern "FAIL" .\out.log ).Count"
+                    if (output > 1){
+                        currentBuild.result = 'FAILURE'
                     }
                 }
 		    }
