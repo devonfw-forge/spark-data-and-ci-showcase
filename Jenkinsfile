@@ -42,9 +42,11 @@ pipeline{
         }
         stage('test results analyse') {
             steps{
+                script {
                     if ($TEST_OUTPUT == 'FAIL'){
                             currentBuild.result = 'FAILURE'
                     }
+                }
 		    }
 		}
     }
