@@ -1,15 +1,26 @@
 # Crisis analysis with PySpark and Jupyter
 
+You will have the three data sets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file. The project is created for working with custom libraries developed with PySpark and used on Jupyter notebook
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="40%" />
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="20%" align="right"/>
+
+----
+### To download the project
 ```bash
 git clone https://github.com/devonfw-forge/spark-data-and-ci-showcase.git
 ```
-### Once having cloned the remote repository, you are able to start playing with the project using Jupyter with a simple docker image linked to your local workspace:
-### Prerequisite: doocker installed
+
+### To start working with Docker environment
+#### Once having cloned the remote repository, you are able to start playing with the project using Jupyter with a simple docker image linked to your local workspace:
+
+ Prerequisite: doocker installed
 
 ```bash
 docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pyspark-notebook
 ```
-### Once the container is ready you will see something like:
+#### Once the container is ready you will see something like:
     [I 09:08:42.826 NotebookApp] Writing notebook server cookie secret to /home/jovyan/.local/share/    jupyter/runtime/notebook_cookie_secret
     [I 09:08:43.608 NotebookApp] JupyterLab extension loaded from /opt/conda/lib/python3.7/ site-packages/jupyterlab
     [I 09:08:43.608 NotebookApp] JupyterLab application directory is /opt/conda/share/jupyter/lab
@@ -26,10 +37,10 @@ docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pys
         http://dea10bc88861:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
      or http://127.0.0.1:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
 
-### Then you are able to work with our project and Jupyter on 
+#### Then you are able to work with our project and Jupyter on 
     http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
-### But first we need to add additional libraries:
+#### But first we need to add additional libraries:
 
 ```bash
 docker exec -it jupyter-pyspark pip install plotly
@@ -37,8 +48,6 @@ docker exec -it jupyter-pyspark pip install plotly
 
 ### Now your ready to visualize and play with the Jupyter notebook example
 
-http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
-
-You will have the three data sets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file.
+[http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb]
 
 
