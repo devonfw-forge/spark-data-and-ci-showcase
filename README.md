@@ -2,9 +2,11 @@
 
 You will have the three data sets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file. The project is created for working with custom libraries developed with PySpark and used on Jupyter notebook
 
+<div>
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="40%" />
 
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="20%" align="right"/>
+</div>
 
 ----
 ### To download the project
@@ -48,6 +50,6 @@ docker exec -it jupyter-pyspark pip install plotly
 
 ### Now your ready to visualize and play with the Jupyter notebook example
 
-[http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb]
+    http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
 
