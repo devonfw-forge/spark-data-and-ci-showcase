@@ -40,7 +40,8 @@ docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pys
      or http://127.0.0.1:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
 
 #### Then you are able to work with our project and Jupyter on 
-    http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
+    
+http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
 #### But first we need to add additional libraries:
 
@@ -50,6 +51,6 @@ docker exec -it jupyter-pyspark pip install plotly
 
 ### Now your ready to visualize and play with the Jupyter notebook example
 
-    http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
+http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
 
