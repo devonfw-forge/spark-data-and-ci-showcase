@@ -8,9 +8,9 @@ You will find three datasets (.json, .db, .csv) joined with their respective pyt
 
 <div>
 
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="10%" />
-
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="20%" />
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="10%" />
 
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jenkinsWithDocker.png" width="22%" />
 
