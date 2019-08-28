@@ -61,7 +61,7 @@ docker exec -it jupyter-pyspark pip install plotly
 ### Now you are ready to play with the [Jupyter notebook example](http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb)
 
 ----
-</br>
+<div></br>
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogoIcon.jpg.png" />
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/adcenterlogo.png" />
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogo.jpg" width="20%" align="right"/>
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogo.jpg" width="20%" align="right"/></div>
