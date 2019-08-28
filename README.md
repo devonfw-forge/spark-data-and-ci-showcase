@@ -1,12 +1,14 @@
 # Crisis analysis with PySpark and Jupyter
 
-You will have the three data sets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file. The project is created for working with custom libraries developed with PySpark and used on Jupyter notebook
+This project has been created for anyone who wants to start playing with Jupyter and PySpark as a proof of concept using a real scenario (Crisis analysis).
 
-<div>
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="40%" />
+We also have used TDD methodology and [type checking](https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b) 
 
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="20%" align="right"/>
-</div>
+You will find three datasets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file. The project is created for working with custom libraries developed with PySpark and used on Jupyter notebook
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="20%" />
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="10%" align="right"/>
 
 ----
 ### To download the project
@@ -53,4 +55,8 @@ docker exec -it jupyter-pyspark pip install plotly
 
 http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
-
+----
+</br>
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogoIcon.jpg.png" />
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/adcenterlogo.png" />
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogo.jpg" width="20%" align="right"/>
