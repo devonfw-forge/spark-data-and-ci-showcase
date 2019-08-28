@@ -2,15 +2,26 @@
 
 This project has been created for anyone who wants to start playing with Jupyter and PySpark as a proof of concept using a real scenario (Crisis analysis).
 
-We also have used TDD methodology and [type checking](https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b) 
+We also have used TDD methodology, CI with Jenkins and [type checking](https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b) 
 
 You will find three datasets (.json, .db, .csv) joined with their respective python files. Each folder represents a dataset (API, WorldBank, GDP) is divided in three parts : the function file, the tests file and the API file. The project is created for working with custom libraries developed with PySpark and used on Jupyter notebook
 
+<div>
+
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="10%" />
+
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/pyspark.png" width="20%" />
 
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jupylogo.png" width="10%" align="right"/>
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/jenkinsWithDocker.png" width="22%" />
+
+</div>
 
 ----
+
+Prerequisites: 
+- [Docker](https://www.docker.com/products/docker-desktop) installed for running Jupyter
+- On Windows local environment we are using linux command. You could download [Cmder](https://cmder.net/)
+
 ### To download the project
 ```bash
 git clone https://github.com/devonfw-forge/spark-data-and-ci-showcase.git
@@ -19,7 +30,7 @@ git clone https://github.com/devonfw-forge/spark-data-and-ci-showcase.git
 ### To start working with Docker environment
 #### Once having cloned the remote repository, you are able to start playing with the project using Jupyter with a simple docker image linked to your local workspace:
 
- Prerequisite: doocker installed
+ 
 
 ```bash
 docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pyspark-notebook
@@ -41,19 +52,13 @@ docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pys
         http://dea10bc88861:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
      or http://127.0.0.1:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
 
-#### Then you are able to work with our project and Jupyter on 
-    
-http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
 
-#### But first we need to add additional libraries:
-
+#### After that plotly library is required to be installed to running the notebook example
 ```bash
 docker exec -it jupyter-pyspark pip install plotly
 ```
 
-### Now your ready to visualize and play with the Jupyter notebook example
-
-http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb
+### Now you are ready to play with the [Jupyter notebook example](http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb)
 
 ----
 </br>
