@@ -35,7 +35,7 @@ git clone https://github.com/devonfw-forge/spark-data-and-ci-showcase.git
 ```bash
 docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pyspark-notebook
 ```
-#### Once the container is ready you will see something like:
+#### Once the container is ready you will see something like this with the link to access Jupyter locally:
     [I 09:08:42.826 NotebookApp] Writing notebook server cookie secret to /home/jovyan/.local/share/    jupyter/runtime/notebook_cookie_secret
     [I 09:08:43.608 NotebookApp] JupyterLab extension loaded from /opt/conda/lib/python3.7/ site-packages/jupyterlab
     [I 09:08:43.608 NotebookApp] JupyterLab application directory is /opt/conda/share/jupyter/lab
@@ -53,12 +53,12 @@ docker run -it --name jupyter-pyspark -p 8888:8888 -v ~:/home/jovyan jupyter/pys
      or http://127.0.0.1:8888/?token=88f7cd4fb2c77fb6babf17dc037f901089c5c630fb53a5cc
 
 
-#### After that plotly library is required to be installed to running the notebook example
+#### After that plotly library is required to be installed
 ```bash
 docker exec -it jupyter-pyspark pip install plotly
 ```
 
-### Now you are ready to play with the [Jupyter notebook example](http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb)
+#### Now you are ready to play with the [Jupyter notebook example](http://127.0.0.1:8888/notebooks/spark-data-and-ci-showcase/notebooks/Crisis_analyse.ipynb)
 
 ----
 ### Support
