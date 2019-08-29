@@ -66,6 +66,6 @@ Contact to antonio.martin-romero@capgemini.com | iwan-rochus.van-der-kleijn@capg
 from [AD Center Valencia](https://www.capgemini.com/es-es/service/agile-delivery-center-valencia/)
 
 <div>
-<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogoIcon.jpg.png" />
+<img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogoIcon.jpg.png" width="7%"/>
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/adcenterlogo.png" />
 <img src="https://raw.githubusercontent.com/devonfw-forge/spark-data-and-ci-showcase/master/logo/capgeminLogo.jpg" width="20%" align="right"/></div>
