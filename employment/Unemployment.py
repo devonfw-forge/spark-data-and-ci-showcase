@@ -11,30 +11,29 @@ class Employment():
         self.spark = sparkSession         
         self.df_unemployment = data
         
-    def extract_info(self, years_frame: list, countries_list: list ) -> DataType:
-        years = [str(year) for year in range(years_frame[0],years_frame[-1]+1)]
+    def extractInfo(self, years: list, countries: list ) -> DataType:
+        years = [str(year) for year in range(years[0], years[-1]+1)]
         
         return  self.df_unemployment\
-                .fillna(0)\
-                .select([c for c in self.df_unemployment.columns if c in ['CountryName'] + years]) \
-                .filter(self.df_unemployment.CountryName.isin(countries_list))\
+                    .fillna(0)\
+                    .select([c for c in self.df_unemployment.columns if c in ['CountryName'] + years]) \
+                    .filter(self.df_unemployment.CountryName.isin(countries))\
                     
-    def add_groups(self,Data:DataType, geo_zone:dict) -> DataType:
-        Data_extended = Data.withColumn('GroupName', Data.CountryName )
-        return Data_extended.replace(geo_zone,1,'GroupName')
+    def addGroups(self, data: DataType, geo_zone: dict) -> DataType:
+        dataExtended = data.withColumn('GroupName', data.CountryName )
+        return dataExtended.replace(geo_zone, 1, 'GroupName')
     
-    def groups_data(self, Data: DataType, years_frame:list) -> DataType:
+    def groupData(self, data: DataType, years:list) -> DataType:
         dicc = {}
-        for year in range(years_frame[0],years_frame[-1]+1):
+        for year in range(years[0], years[-1]+1):
             dicc[str(year)] = 'sum'
-        for column in Data.columns[1:-1]:
-            
-            Data = Data.withColumn(column, F.regexp_replace(column,',','.'))
+        for column in data.columns[1:-1]:
+            data = data.withColumn(column, F.regexp_replace(column,',','.'))
           
-        return Data.groupby('GroupName').agg(dicc).orderBy('GroupName')   
+        return data.groupby('GroupName').agg(dicc).orderBy('GroupName')   
         
     
-    def plot_unemployment(self,Data:DataType, years_frame:list) -> None:
+    def plot(self,Data:DataType, years_frame:list) -> None:
             
             dataframePanda = Data.toPandas()
 
