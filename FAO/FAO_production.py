@@ -5,8 +5,7 @@ import plotly.graph_objects as go
 
 class FAO_production():
     
-    def __init__(self,data, spark):
-
+    def __init__(self, data, spark):
         self.df = data
         self.sparksession = spark
         

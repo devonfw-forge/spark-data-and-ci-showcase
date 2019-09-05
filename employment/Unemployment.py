@@ -29,24 +29,22 @@ class Employment():
             dicc[str(year)] = 'sum'
         for column in data.columns[1:-1]:
             data = data.withColumn(column, F.regexp_replace(column,',','.'))
-          
+        
         return data.groupby('GroupName').agg(dicc).orderBy('GroupName')   
         
     
-    def plot(self,Data:DataType, years_frame:list) -> None:
-            
-            dataframePanda = Data.toPandas()
-
-            years = [str(year) for year in range(years_frame[0],years_frame[-1]+1)]
+    def plotUnemployment(self, data: DataType, years: list, colorSettings) -> None:
+            pandaDataframe= data.toPandas()
+            years = [str(year) for year in range(years[0], years[-1]+1)]
             fig = go.Figure()
-            zone_list_plot = {'Asian Tigers':'red', 'BRICS':'blue', 'China':'yellow', 'Europe':'green', 'Japan':'magenta', 'US':'black'}
-            for i,zone in enumerate(list(zone_list_plot.keys())):
-                
-                unemployment = dataframePanda.iloc[i][1:-1]
-                fig.add_trace(go.Scatter(x=years, y=unemployment.iloc[::-1], name=zone,
-                                         line_color=zone_list_plot[zone]))
 
-            fig.update_layout(title_text='Unemployment percentage from {} to {}'.format(years_frame[0], years_frame[1]),
-                                  xaxis_rangeslider_visible=True)
+            for i, zone in enumerate(list(colorSettings.keys())):
+                unemployment = pandaDataframe.iloc[i][1:-1]
+                fig.add_trace(go.Scatter(x=years, 
+                                         y=unemployment.iloc[::-1], 
+                                         name=zone,
+                                         line_color=colorSettings[zone]))
+
+            fig.update_layout(title_text='Unemployment percentage from {} to {}'.format(years[0], years[1]), xaxis_rangeslider_visible=True)
             fig.show()          
             
