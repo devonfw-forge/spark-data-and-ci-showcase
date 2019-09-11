@@ -21,7 +21,6 @@ class FAO_production():
         return self.df.rdd.map(lambda line: (line[0], [line[5]])).reduceByKey(lambda accum, n: accum + n).collect()
     
     def production_sum(self):
-        
         dicc = {}
         for year in range(1961,2014):
             dicc['Y'+ str(year)] = 'sum'
@@ -37,54 +36,48 @@ class FAO_production():
 
         return  self.sparksession.createDataFrame(Sum_ordered)
     
-    def plot_production_sum(self):
-        
-        df2 = self.production_sum()
-        
-        x = [int(row['_1']) for row in  df2.select('_1').collect()]
-        y = [int(row['_2']) for row in df2.select('_2').collect()]
+    def plot_production_sum(self, dataFrame):
+        x = [int(row['_1']) for row in  dataFrame.select('_1').collect()]
+        y = [int(row['_2']) for row in dataFrame.select('_2').collect()]
 
         plt.plot(x,y)
         plt.show()
         
-    def add_geo_zone(self):
+    def get_geo_zone(self, dataSource):
         df_geo = self.sparksession \
-            .read \
-            .format('csv') \
-            .options(header='true', inferSchema='true', delimiter=';') \
-            .load('../data2/Book1.csv')
+                     .read \
+                     .format('csv') \
+                     .options(header='true', inferSchema='true', delimiter=';') \
+                     .load(dataSource)
 
         return self.df.join(df_geo, self.df.Area == df_geo.Country)
     
-    def zones_production(self):
-        df_extended = self.add_geo_zone()
-               
+    def get_prod_by_zones(self, geo_zones_df, year_ini, year_end, zones):
         dicc = {}
-        for year in range(1961,2014):
-            dicc['Y'+ str(year)] = 'sum'
-    
         prod_by_zones = {}
-        for year in range(1961,2014):
+
+        for year in range(year_ini, year_end):
+            dicc['Y'+ str(year)] = 'sum'
             prod_by_zones[str(year)] = []
-    
-        for zone in ['Asia & Pacific', 'Europe', 'Arab States', 'Africa','South/Latin America', 'Unknown', 'North America']:
-    
-            prod_years = df_extended.filter(df_extended.Zone == zone).agg(dicc).schema.names
-            prod_sum = df_extended.filter(df_extended.Zone == zone).agg(dicc).rdd.map(lambda line: line[0:54]).collect()[0]
-              
+
+        for zone in zones:
+            prod_years = geo_zones_df.filter(geo_zones_df.Zone == zone).agg(dicc).schema.names
+            prod_sum = geo_zones_df.filter(geo_zones_df.Zone == zone).agg(dicc).rdd.map(lambda line: line[0:54]).collect()[0]
+
             Sum = []
-            for i,elt in enumerate(prod_years):
-                Sum.append([elt[5:9],prod_sum[i]])
+            for i, elt in enumerate(prod_years):
+                Sum.append([elt[5:9], prod_sum[i]])
 
             Sum_ordered = sorted(Sum, key=lambda tup: tup[0])
 
             for year in Sum_ordered:
-                prod_by_zones[year[0]] = prod_by_zones[year[0]] + [(zone,year[1])]
+                prod_by_zones[year[0]] = prod_by_zones[year[0]] + [(zone, year[1])]
             
         return prod_by_zones
+
     
-    def plot_zones_production(self):
-        dicc_prod_by_zones = self.zones_production()
+    
+    def plot_production_zones(self, prod_zones_map, year_ini, year_end, color_zones):
         AP=[]
         E=[]
         AS=[]
@@ -93,87 +86,63 @@ class FAO_production():
         U=[]
         NA=[]
 
-        years = [str(x) for x in range(1961,2014)]
+        years = [str(x) for x in range(year_ini, year_end)]
 
         for year in years:
-            AP.append(dicc_prod_by_zones[year][0][1])
-            E.append(dicc_prod_by_zones[year][1][1])
-            AS.append(dicc_prod_by_zones[year][2][1])
-            A.append(dicc_prod_by_zones[year][3][1])
-            SA.append(dicc_prod_by_zones[year][4][1])
-            U.append(dicc_prod_by_zones[year][5][1])
-            NA.append(dicc_prod_by_zones[year][6][1])
+            AP.append(prod_zones_map[year][0][1])
+            E.append(prod_zones_map[year][1][1])
+            AS.append(prod_zones_map[year][2][1])
+            A.append(prod_zones_map[year][3][1])
+            SA.append(prod_zones_map[year][4][1])
+            U.append(prod_zones_map[year][5][1])
+            NA.append(prod_zones_map[year][6][1])
 
         fig = go.Figure()
-        fig.add_trace(go.Bar(
-            y=years,
-            x=AP,
-            name='Asia & Pacific',
-            orientation='h',
-            marker=dict(
-                color='red',
-                line=dict(color='black', width=0.25)
-            )
-        ))
-        fig.add_trace(go.Bar(
-            y=years,
-            x=E,
-            name='Europe',
-            orientation='h',
-            marker=dict(
-                color='blue',
-                line=dict(color='black', width=0.25)
-            )
-        ))
-        fig.add_trace(go.Bar(
-            y=years,
-            x=AS,
-            name='Arab States',
-            orientation='h',
-            marker=dict(
-                color='green',
-                line=dict(color='black', width=0.25)
-            )
-        ))
-        fig.add_trace(go.Bar(
-            y=years,
-            x=A,
-            name='Africa',
-            orientation='h',
-            marker=dict(
-                color='yellow',
-                line=dict(color='black', width=0.25)
-            )
-        ))
-        fig.add_trace(go.Bar(
-            y=years,
-            x=SA,
-            name='South/Latin America',
-            orientation='h',
-            marker=dict(
-                color='orange',
-                line=dict(color='black', width=0.25)
-            )
-        ))
-        fig.add_trace(go.Bar(
-            y=years,
-            x=NA,
-            name='North America',
-            orientation='h',
-            marker=dict(
-                color='magenta',
-                line=dict(color='black', width=0.25)
-            )
-        ))
+
+        for i, zone in enumerate(list(color_zones.keys())):
+            fig.add_trace(go.Bar(
+                y=years,
+                x=AP,
+                name=zone,
+                orientation='h',
+                marker=dict(
+                    color=color_zones[zone],
+                    line=dict(color='black', width=0.25)
+                )
+           ))
 
         fig.update_layout(barmode='stack')
         fig.show()
+
+    def group_prod_world(self, year, country_list):
+        year_selected ={'Y' + str(year) :'sum'}
+        return self.df.filter(self.df.Area.isin(country_list)).groupBy('Area').agg(year_selected)
         
-    def production_world(self, year):
+    def production_world_refact(self, prod_world_grouped, year, country_list):
+        panda_df = prod_world_grouped.toPandas()
+
+        col = 'sum(Y' + str(year) + ')'
+        # year_selected ={'Y' + str(year) :'sum'}
+
+        prod = {}
+        for country in country_list:
+            prod[country] = panda_df.loc[panda_df['Area'] == country, [col][0]]
+            
+            
+            
+        #     prod[country].agg(year_selected).rdd.map(lambda line: line[0]).collect()[0]
+            
+        #     self.df.filter(self.df.Area == country).agg(year_selected).rdd.map(lambda line: line[0]).collect()[0]
+        # for elt in list(prod.items()):
+        #     if prod[elt[0]]== None:
+        #         prod[elt[0]]=0
+        return prod
+
+    def production_world(self, year, country_list):
         year_selected ={'Y' + str(year) :'sum'}
         
         prod = {}
-        for country in self.list_countries():
+        for country in country_list:
             prod[country] = self.df.filter(self.df.Area == country).agg(year_selected).rdd.map(lambda line: line[0]).collect()[0]
         
         for elt in list(prod.items()):
@@ -184,12 +153,11 @@ class FAO_production():
     
     
     def countries_coor(self):
-        
         coor = self.df.select(*( self.df.columns[i] for i in [0,61,62] )).distinct().rdd.map(lambda line: (line[0], line[1], line[2])).collect()
         return self.sparksession.createDataFrame(coor)
     
     
-    def plot_production_world(self,year):
+    def plot_production_world(self, dataframe):
         coor = self.countries_coor()
             
         lati = [int(row['_2']) for row in   coor.select('_2').collect()]
@@ -203,7 +171,7 @@ class FAO_production():
         N1 = list(N.items())
         N2 = sorted(N1, key=lambda tup: tup[0]) 
 
-        produc = list(self.production_world(year).values())
+        produc = list(dataframe.values())
 
         latitude = []
         longitude = []

@@ -11,7 +11,7 @@ class Employment():
         self.spark = sparkSession         
         self.df_unemployment = data
         
-    def extractInfo(self, years: list, countries: list ) -> DataType:
+    def extract_info(self, years: list, countries: list ) -> DataType:
         years = [str(year) for year in range(years[0], years[-1]+1)]
         
         return  self.df_unemployment\
@@ -19,11 +19,11 @@ class Employment():
                     .select([c for c in self.df_unemployment.columns if c in ['CountryName'] + years]) \
                     .filter(self.df_unemployment.CountryName.isin(countries))\
                     
-    def addGroups(self, data: DataType, geo_zone: dict) -> DataType:
+    def add_groups(self, data: DataType, geo_zone: dict) -> DataType:
         dataExtended = data.withColumn('GroupName', data.CountryName )
         return dataExtended.replace(geo_zone, 1, 'GroupName')
     
-    def groupData(self, data: DataType, years:list) -> DataType:
+    def group_data(self, data: DataType, years:list) -> DataType:
         dicc = {}
         for year in range(years[0], years[-1]+1):
             dicc[str(year)] = 'sum'
@@ -33,7 +33,7 @@ class Employment():
         return data.groupby('GroupName').agg(dicc).orderBy('GroupName')   
         
     
-    def plotUnemployment(self, data: DataType, years: list, colorSettings) -> None:
+    def plot_unemployment(self, data: DataType, years: list, colorSettings) -> None:
             pandaDataframe= data.toPandas()
             years = [str(year) for year in range(years[0], years[-1]+1)]
             fig = go.Figure()

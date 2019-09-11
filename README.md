@@ -1,6 +1,7 @@
 # Crisis analysis with PySpark and Jupyter
 
-This project has been created for anyone who wants to start playing with Jupyter and PySpark as a proof of concept using a real scenario (Crisis analysis).
+This research project has been created for anyone who wants to start playing with Jupyter and PySpark as a proof of concept using a real scenario: 
+* Global Economic Development using World Bank open data
 
 We also have used TDD methodology, CI with Jenkins and [type checking](https://medium.com/@ageitgey/learn-how-to-use-static-type-checking-in-python-3-6-in-10-minutes-12c86d72677b) 
 

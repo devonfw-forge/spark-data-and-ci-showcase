@@ -15,10 +15,10 @@ class Gdp():
         self.queryGDP = 'SELECT * from gdp'
         self.queryCountries = 'SELECT * from countries'
 
-    def createPandaDataFrame(self):
+    def create_panda_gdp(self):
         return pd.read_sql_query(self.queryGDP, self.conn)
         
-    def createSparkDataFrame(self, pandaDataFrame):
+    def create_spark_gdp(self, pandaDataFrame):
         dataFrame = self.spark.createDataFrame(pandaDataFrame.astype(str))
         dataFrame = dataFrame.withColumn("id", dataFrame["id"].cast(IntegerType())) \
                              .withColumn("gdp", dataFrame["gdp"].cast(DoubleType())) \
@@ -26,11 +26,11 @@ class Gdp():
                              .withColumn("Year", dataFrame["Year"].cast(IntegerType()))
         return dataFrame
 
-    def createGDPDataFrame(self):
-        return self.createSparkDataFrame(self.createPandaDataFrame())
+    def create_gdp(self):
+        return self.create_spark_gdp(self.create_panda_gdp())
         
         #subset is a list filled with the names of the columns on which we want to aplicate the function (here GDP and Growth)
-    def replaceNullValues(self, sparkDf, how, subset):
+    def replace_null_values(self, sparkDf, how, subset):
         return sparkDf.dropna(how = how, subset = subset).fillna(0)
     
     def getMaxGDPByCountryCode(self, sparkDataframe, countryCodes):
@@ -43,7 +43,7 @@ class Gdp():
 
         return df.toPandas()
     
-    def getGDPByCountryCode(self, sparkDataframe, years, countryCodes):
+    def get_gdp_by_country_code(self, sparkDataframe, years, countryCodes):
         df = sparkDataframe.filter(sparkDataframe.CountryCode.isin(countryCodes))
         df = df.filter(sparkDataframe.Year.isin([x for x in range(years[0],years[1]+1)]))
         return df.toPandas()
@@ -96,7 +96,7 @@ class Gdp():
         iplot(fig)
         
         
-    def plotGDPGrowth(self, pandaDataFrame, years, countryMap, colorSettings):
+    def plot_gdp_growth(self, pandaDataFrame, years, countryMap, colorSettings):
         data = []
         for i, code in enumerate(list(countryMap.keys())):
             data.append(go.Scatter( x = pandaDataFrame[pandaDataFrame['CountryCode']==list(countryMap.keys())[i]].Year,
